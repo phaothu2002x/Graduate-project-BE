@@ -9,17 +9,19 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Order_Info.hasMany(models.Order_Detail);
+            Order_Info.belongsTo(models.User);
         }
     }
     Order_Info.init(
         {
-            username: DataTypes.STRING,
             email: DataTypes.STRING,
             phone: DataTypes.STRING,
             address: DataTypes.STRING,
             orderDate: DataTypes.DATE,
             paymentMethod: DataTypes.STRING,
             status: DataTypes.STRING,
+            userId: DataTypes.INTEGER,
         },
         {
             sequelize,

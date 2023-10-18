@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Order_Detail.belongsTo(models.Order_Info);
+            Order_Detail.belongsTo(models.Product);
         }
     }
     Order_Detail.init(
@@ -19,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
             total: DataTypes.FLOAT,
             subtotal: DataTypes.FLOAT,
             orderId: DataTypes.INTEGER,
+            productId: DataTypes.INTEGER,
         },
         {
             sequelize,

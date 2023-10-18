@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Product_Price.hasMany(models.Product);
         }
     }
     Product_Price.init(
