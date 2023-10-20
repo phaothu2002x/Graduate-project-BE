@@ -46,13 +46,16 @@ const handleRegister = async (req, res) => {
 
 const handleLogin = async (req, res) => {
     try {
-        console.log(req.body);
-        ///xu ly phia tren
-        // return res.status(200).json({
-        //     EM: data.EM,
-        //     EC: data.EC,
-        //     DT: "",
-        // });
+        // console.log(req.body);
+
+        let data = await loginRegisterService.handleLogin(req.body);
+
+        // xu ly phia tren
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
