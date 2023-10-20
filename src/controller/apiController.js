@@ -9,7 +9,7 @@ const testApi = (req, res) => {
 
 const handleRegister = async (req, res) => {
     try {
-        console.log(req.body);
+        // console.log(req.body);
         //req.body : userData
         if (!req.body.email || !req.body.phone || !req.body.password) {
             return res.status(200).json({
@@ -44,7 +44,27 @@ const handleRegister = async (req, res) => {
     }
 };
 
+const handleLogin = async (req, res) => {
+    try {
+        console.log(req.body);
+        ///xu ly phia tren
+        // return res.status(200).json({
+        //     EM: data.EM,
+        //     EC: data.EC,
+        //     DT: "",
+        // });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EM: "error from server",
+            EC: "-1",
+            DT: "",
+        });
+    }
+};
+
 module.exports = {
     testApi,
     handleRegister,
+    handleLogin,
 };
