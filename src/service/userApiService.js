@@ -35,6 +35,8 @@ const getUserWithPagination = async (page, limit) => {
         let offset = (page - 1) * limit;
 
         const { count, rows } = await db.User.findAndCountAll({
+            attributes: ["id", "username", "email", "phone"],
+            include: { model: db.Role, attributes: ["id", "name", "url"] },
             offset: offset,
             limit: limit,
         });
@@ -97,15 +99,25 @@ const updateUser = async (data) => {
 };
 const DeleteUser = async (id) => {
     try {
-        let user = await db.User.delete({
-            where: { id: data.id },
+        let user = await db.User.findOne({
+            where: { id: id },
         });
 
-        return {
-            EM: "Not found user ",
-            EC: "1",
-            DT: "",
-        };
+        if (user) {
+            await user.destroy();
+
+            return {
+                EM: "delete user success",
+                EC: 0,
+                DT: [],
+            };
+        } else {
+            return {
+                EM: "User not exist",
+                EC: 2,
+                DT: [],
+            };
+        }
     } catch (error) {
         console.log(error);
         return {
