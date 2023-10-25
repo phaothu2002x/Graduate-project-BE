@@ -107,15 +107,30 @@ const createUser = async (data) => {
 };
 const updateUser = async (data) => {
     try {
+        if (!data.roleId) {
+            return {
+                EM: "Error with empty roleId ",
+                EC: 1,
+                DT: "role",
+            };
+        }
         let user = await db.User.findOne({
             where: { id: data.id },
         });
         if (user) {
-            user.save({});
+            await user.update({
+                username: data.username,
+                roleId: data.roleId,
+            });
+            return {
+                EM: "Update OK!",
+                EC: 0,
+                DT: "",
+            };
         } else {
             return {
                 EM: "Not found user ",
-                EC: "1",
+                EC: 2,
                 DT: "",
             };
         }
