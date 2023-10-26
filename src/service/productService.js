@@ -1,21 +1,16 @@
 import db from "../models/index";
-import {
-    checkPhoneExist,
-    checkEmailExist,
-    hashUserPassword,
-} from "./loginRegisterService";
-const getAllUser = async () => {
+
+const getAllProduct = async () => {
     try {
-        let users = await db.User.findAll({
-            attributes: ["id", "username", "email", "phone"],
-            include: { model: db.Role, attributes: ["id", "name", "url"] },
+        let products = await db.Product.findAll({
+            attributes: ["id", "thumbnail", "name", "description"],
         });
 
-        if (users) {
+        if (products) {
             return {
                 EM: "get data success",
                 EC: 0,
-                DT: users,
+                DT: products,
             };
         } else {
             return {
@@ -175,9 +170,9 @@ const DeleteUser = async (id) => {
 };
 
 module.exports = {
-    getAllUser,
+    getAllProduct,
+    getUserWithPagination,
     createUser,
     updateUser,
     DeleteUser,
-    getUserWithPagination,
 };
