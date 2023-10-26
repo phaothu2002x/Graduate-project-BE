@@ -4,6 +4,10 @@ const getAllProduct = async () => {
     try {
         let products = await db.Product.findAll({
             attributes: ["id", "thumbnail", "name", "description"],
+            include: {
+                model: db.Product_Price,
+                attributes: ["price", "discountPrice"],
+            },
         });
 
         if (products) {
