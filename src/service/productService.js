@@ -142,23 +142,23 @@ const updateUser = async (data) => {
         };
     }
 };
-const DeleteUser = async (id) => {
+const DeleteProduct = async (id) => {
     try {
-        let user = await db.User.findOne({
+        let product = await db.Product.findOne({
             where: { id: id },
         });
 
-        if (user) {
-            await user.destroy();
+        if (product) {
+            await product.destroy();
 
             return {
-                EM: "delete user success",
+                EM: "delete product successfully",
                 EC: 0,
                 DT: [],
             };
         } else {
             return {
-                EM: "User not exist",
+                EM: "Product id not exist",
                 EC: 2,
                 DT: [],
             };
@@ -178,5 +178,5 @@ module.exports = {
     getUserWithPagination,
     createUser,
     updateUser,
-    DeleteUser,
+    DeleteProduct,
 };

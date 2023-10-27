@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Product.hasMany(models.Order_Detail);
+            // Product.hasMany(models.Feedback);
             Product.belongsTo(models.Brand);
             Product.belongsTo(models.Product_Price);
             Product.belongsToMany(models.Category, {
@@ -24,6 +25,9 @@ module.exports = (sequelize, DataTypes) => {
             Product.belongsToMany(models.Supplier, {
                 through: "Product_Supplier",
             });
+            Product.belongsToMany(models.User, {
+                through: "Feedback",
+            });
         }
     }
     Product.init(
@@ -31,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
             thumbnail: DataTypes.TEXT,
             name: DataTypes.STRING,
             description: DataTypes.TEXT,
+            code: DataTypes.STRING,
             brandId: DataTypes.INTEGER,
             productPriceId: DataTypes.INTEGER,
         },
