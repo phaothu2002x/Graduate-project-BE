@@ -33,14 +33,17 @@ const getAllProduct = async () => {
     }
 };
 
-const getUserWithPagination = async (page, limit) => {
+const getProductWithPagination = async (page, limit) => {
     try {
         let offset = (page - 1) * limit;
 
-        const { count, rows } = await db.User.findAndCountAll({
-            attributes: ["id", "username", "email", "phone"],
-            include: { model: db.Role, attributes: ["id", "name", "url"] },
-            order: [["id", "DESC"]],
+        const { count, rows } = await db.Product.findAndCountAll({
+            attributes: ["id", "thumbnail", "name", "description"],
+            include: {
+                model: db.Product_Price,
+                attributes: ["price", "discountPrice"],
+            },
+            order: [["id", "ASC"]],
             offset: offset,
             limit: limit,
         });
@@ -49,7 +52,7 @@ const getUserWithPagination = async (page, limit) => {
         let data = {
             totalRow: count,
             totalPages: totalPages,
-            users: rows,
+            product: rows,
         };
         return {
             EM: "get pagination success",
@@ -175,7 +178,7 @@ const DeleteProduct = async (id) => {
 
 module.exports = {
     getAllProduct,
-    getUserWithPagination,
+    getProductWithPagination,
     createUser,
     updateUser,
     DeleteProduct,
