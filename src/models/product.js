@@ -12,10 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             Product.hasMany(models.Order_Detail);
             // Product.hasMany(models.Feedback);
             Product.belongsTo(models.Brand);
-            Product.belongsTo(models.Product_Price);
-            Product.belongsToMany(models.Category, {
-                through: "Product_Category",
-            });
+            Product.belongsTo(models.Category);
+
             Product.belongsToMany(models.Promotion, {
                 through: "Product_Promotion",
             });
@@ -35,9 +33,10 @@ module.exports = (sequelize, DataTypes) => {
             thumbnail: DataTypes.TEXT,
             name: DataTypes.STRING,
             description: DataTypes.TEXT,
+            price: DataTypes.FLOAT,
             code: DataTypes.STRING,
             brandId: DataTypes.INTEGER,
-            productPriceId: DataTypes.INTEGER,
+            categoryId: DataTypes.INTEGER,
         },
         {
             sequelize,

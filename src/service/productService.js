@@ -3,11 +3,14 @@ import db from "../models/index";
 const getAllProduct = async () => {
     try {
         let products = await db.Product.findAll({
-            attributes: ["id", "thumbnail", "name", "description"],
-            include: {
-                model: db.Product_Price,
-                attributes: ["price", "discountPrice"],
-            },
+            attributes: [
+                "id",
+                "thumbnail",
+                "name",
+                "description",
+                "price",
+                "code",
+            ],
         });
 
         if (products) {
@@ -38,11 +41,15 @@ const getProductWithPagination = async (page, limit) => {
         let offset = (page - 1) * limit;
 
         const { count, rows } = await db.Product.findAndCountAll({
-            attributes: ["id", "thumbnail", "name", "description"],
-            include: {
-                model: db.Product_Price,
-                attributes: ["price", "discountPrice"],
-            },
+            attributes: [
+                "id",
+                "thumbnail",
+                "name",
+                "description",
+                "price",
+                "code",
+            ],
+
             order: [["id", "ASC"]],
             offset: offset,
             limit: limit,
@@ -69,30 +76,40 @@ const getProductWithPagination = async (page, limit) => {
     }
 };
 
-const createUser = async (data) => {
+const createProduct = async (data) => {
     try {
-        //check email, phone, hashpasss
-        let isEmailExist = await checkEmailExist(data.email);
-        if (isEmailExist == true) {
-            return {
-                EM: "Email is already exist",
-                EC: 1,
-                DT: "email",
-            };
-        }
-        let isPhoneExist = await checkPhoneExist(data.phone);
-        if (isPhoneExist == true) {
-            return {
-                EM: "Phone is already exist",
-                EC: 1,
-                DT: "phone",
-            };
-        }
-
-        let hashPassword = hashUserPassword(data.password);
+        const {
+            thumbnail,
+            name,
+            description,
+            price,
+            code,
+            brandChecked,
+            cateChecked,
+            supChecked,
+        } = data;
+        //check product code
 
         //create
-        await db.User.create({ ...data, password: hashPassword });
+        await db.Product.create({
+            name,
+            thumbnail,
+            description,
+            price,
+            code,
+            brandId: brandChecked,
+            categoryId: cateChecked,
+        });
+        //create link to supplier
+        let productRow = await db.Product.findOne({
+            order: [["id", "DESC"]],
+            raw: true,
+        });
+
+        await db.Product_Supplier.create({
+            ProductId: productRow.id,
+            SupplierId: +supChecked,
+        });
         return {
             EM: "create Ok!",
             EC: 0,
@@ -179,7 +196,7 @@ const DeleteProduct = async (id) => {
 module.exports = {
     getAllProduct,
     getProductWithPagination,
-    createUser,
+    createProduct,
     updateUser,
     DeleteProduct,
 };

@@ -17,10 +17,38 @@ module.exports = {
             [
                 {
                     thumbnail:
+                        "https://images.pexels.com/photos/18714961/pexels-photo-18714961/free-photo-of-two-cups-of-coffee-on-a-table.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    name: "Tubanur Dogan",
+                    description:
+                        "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 120,
+                    code: "A011",
+                },
+                {
+                    thumbnail:
+                        "https://images.pexels.com/photos/18857014/pexels-photo-18857014/free-photo-of-aesthetic-nordic-design-sofa-in-vancouver-photography-studio.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    name: "Tubanur Dogan",
+                    description:
+                        "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 100,
+                    code: "A011",
+                },
+                {
+                    thumbnail:
+                        "https://images.pexels.com/photos/18326126/pexels-photo-18326126/free-photo-of-man-in-an-alley-painted-with-graffiti.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+                    name: "Tubanur Dogan",
+                    description:
+                        "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 220,
+                    code: "A011",
+                },
+                {
+                    thumbnail:
                         "https://images.pexels.com/photos/2399840/pexels-photo-2399840.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
                     name: "Tubanur Dogan",
                     description:
                         "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 300,
                     code: "A011",
                 },
                 {
@@ -29,6 +57,7 @@ module.exports = {
                     name: "Pretty_flavours",
                     description:
                         "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 145,
                     code: "A011",
                 },
                 {
@@ -37,6 +66,7 @@ module.exports = {
                     name: "Tubanur Dogan",
                     description:
                         "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 144,
                     code: "A011",
                 },
                 {
@@ -45,6 +75,7 @@ module.exports = {
                     name: "Pretty_flavours",
                     description:
                         "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 80,
                     code: "A011",
                 },
                 {
@@ -53,6 +84,7 @@ module.exports = {
                     name: "Tubanur Dogan",
                     description:
                         "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 90,
                     code: "A011",
                 },
                 {
@@ -61,6 +93,7 @@ module.exports = {
                     name: "Pretty_flavours",
                     description:
                         "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 111,
                     code: "A012",
                 },
             ],

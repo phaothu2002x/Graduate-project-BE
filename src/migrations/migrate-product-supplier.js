@@ -11,7 +11,7 @@ module.exports = {
             productId: {
                 type: Sequelize.INTEGER,
             },
-            SupplierId: {
+            supplierId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {
