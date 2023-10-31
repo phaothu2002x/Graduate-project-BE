@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
+
         static associate(models) {
             // define association here
             Product.hasMany(models.Order_Detail);
@@ -35,8 +36,8 @@ module.exports = (sequelize, DataTypes) => {
             description: DataTypes.TEXT,
             price: DataTypes.FLOAT,
             code: DataTypes.STRING,
-            brandId: DataTypes.INTEGER,
-            categoryId: DataTypes.INTEGER,
+            BrandId: DataTypes.INTEGER,
+            CategoryId: DataTypes.INTEGER,
         },
         {
             sequelize,

@@ -12,22 +12,19 @@ module.exports = {
          * }], {});
          */
         await queryInterface.bulkInsert(
-            "Supplier",
+            "Category",
             [
                 {
-                    name: "GearVn",
-                    country: "Viet Nam",
-                    wholesalePrice: 70,
+                    name: "Keyboards",
+                    description: "Everything for Keyboards",
                 },
                 {
-                    name: "Cherry GmbH",
-                    country: "German",
-                    wholesalePrice: 62,
+                    name: "KeyCaps",
+                    description: "Everything for KeyCaps",
                 },
                 {
-                    name: "Amazon",
-                    country: "USA",
-                    wholesalePrice: 64,
+                    name: "Switches",
+                    description: "Everything for Switches",
                 },
             ],
             {}

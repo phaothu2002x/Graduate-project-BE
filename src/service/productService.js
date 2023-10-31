@@ -91,25 +91,23 @@ const createProduct = async (data) => {
         //check product code
 
         //create
-        await db.Product.create({
+        let product = await db.Product.create({
             name,
             thumbnail,
             description,
             price,
             code,
-            brandId: brandChecked,
-            categoryId: cateChecked,
+            BrandId: brandChecked,
+            CategoryId: cateChecked,
         });
-        //create link to supplier
-        let productRow = await db.Product.findOne({
-            order: [["id", "DESC"]],
-            raw: true,
+        //create association
+        let supplier = await db.Supplier.findOne({
+            where: { id: supChecked },
+        });
+        await product.addSupplier(supplier, {
+            through: { SupplierId: supChecked },
         });
 
-        await db.Product_Supplier.create({
-            ProductId: productRow.id,
-            SupplierId: +supChecked,
-        });
         return {
             EM: "create Ok!",
             EC: 0,

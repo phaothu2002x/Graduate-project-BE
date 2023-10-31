@@ -12,22 +12,20 @@ module.exports = {
          * }], {});
          */
         await queryInterface.bulkInsert(
-            "Supplier",
+            "Brand",
             [
                 {
-                    name: "GearVn",
-                    country: "Viet Nam",
-                    wholesalePrice: 70,
+                    name: "Corsair",
+                    description: "High quality products from California",
                 },
                 {
-                    name: "Cherry GmbH",
-                    country: "German",
-                    wholesalePrice: 62,
+                    name: "Akko",
+                    description: "Affordable products from China",
                 },
                 {
-                    name: "Amazon",
-                    country: "USA",
-                    wholesalePrice: 64,
+                    name: "Logitech",
+                    description:
+                        "Logitech is a famous Swiss brand with headquarters located in the city of Lausanne, Switzerland",
                 },
             ],
             {}
