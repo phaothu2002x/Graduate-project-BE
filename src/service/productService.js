@@ -50,7 +50,7 @@ const getProductWithPagination = async (page, limit) => {
                 "code",
             ],
 
-            order: [["id", "ASC"]],
+            order: [["id", "DESC"]],
             offset: offset,
             limit: limit,
         });
@@ -88,7 +88,8 @@ const createProduct = async (data) => {
             cateChecked,
             supChecked,
         } = data;
-        //check product code
+
+        // check product code
 
         //create
         let product = await db.Product.create({
@@ -100,13 +101,13 @@ const createProduct = async (data) => {
             BrandId: brandChecked,
             CategoryId: cateChecked,
         });
+        //test
+
         //create association
         let supplier = await db.Supplier.findOne({
             where: { id: supChecked },
         });
-        await product.addSupplier(supplier, {
-            through: { SupplierId: supChecked },
-        });
+        await product.setSuppliers(supplier);
 
         return {
             EM: "create Ok!",
@@ -165,6 +166,11 @@ const DeleteProduct = async (id) => {
         let product = await db.Product.findOne({
             where: { id: id },
         });
+        //find association=> delete it
+        let supplier = await db.Supplier.findOne({
+            include: { model: db.Product, where: { id: id } },
+        });
+        await product.removeSupplier(supplier);
 
         if (product) {
             await product.destroy();
