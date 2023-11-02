@@ -14,7 +14,7 @@ const initProductApiRoutes = (app) => {
         "/manage-products/findAllSelection",
         productController.findSelectFunc
     );
-
+    router.get("/manage-products/findType/:id", productController.findTypeFunc);
     return app.use("/api/", router);
 };
 

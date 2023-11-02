@@ -69,6 +69,25 @@ const findFunc = async (req, res) => {
         });
     }
 };
+const findTypeFunc = async (req, res) => {
+    try {
+        // console.log("check id", req.params.id);
+        let data = await productService.findTypeThroughCate(req.params.id);
+        console.log("check find product", data); //=> find thanh cong
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EM: "error from server",
+            EC: "-1",
+            DT: "",
+        });
+    }
+};
 
 const updateFunc = async (req, res) => {
     try {
@@ -133,4 +152,5 @@ module.exports = {
     deleteFunc,
     findFunc,
     findSelectFunc,
+    findTypeFunc,
 };

@@ -264,6 +264,35 @@ const findAllSelectList = async () => {
     }
 };
 
+const findTypeThroughCate = async (CategoryId) => {
+    try {
+        let typeList = await db.Type.findAll({
+            include: { model: db.Category, where: { id: CategoryId } },
+        });
+        console.log(typeList);
+        if (typeList && typeList.length > 0) {
+            return {
+                EM: "Type list fetch OK!",
+                EC: 0,
+                DT: typeList,
+            };
+        } else {
+            return {
+                EM: "not found Type List!",
+                EC: 1,
+                DT: [],
+            };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
+
 module.exports = {
     getAllProduct,
     getProductWithPagination,
@@ -272,4 +301,5 @@ module.exports = {
     DeleteProduct,
     findProductById,
     findAllSelectList,
+    findTypeThroughCate,
 };
