@@ -23,10 +23,10 @@ module.exports = {
             code: {
                 type: Sequelize.STRING,
             },
-            brandId: {
+            BrandId: {
                 type: Sequelize.INTEGER,
             },
-            categoryID: {
+            CategoryID: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

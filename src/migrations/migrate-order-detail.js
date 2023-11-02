@@ -23,10 +23,10 @@ module.exports = {
             subtotal: {
                 type: Sequelize.FLOAT,
             },
-            orderId: {
+            OrderId: {
                 type: Sequelize.INTEGER,
             },
-            productId: {
+            ProductId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

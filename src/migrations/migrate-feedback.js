@@ -14,10 +14,10 @@ module.exports = {
             message: {
                 type: Sequelize.TEXT,
             },
-            productId: {
+            ProductId: {
                 type: Sequelize.INTEGER,
             },
-            userId: {
+            UserId: {
                 type: Sequelize.INTEGER,
             },
 

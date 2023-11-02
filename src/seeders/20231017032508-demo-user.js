@@ -89,7 +89,25 @@ module.exports = {
                 },
                 {
                     thumbnail:
+                        "https://scontent.fsgn8-3.fna.fbcdn.net/v/t39.30808-6/387827797_992552815353152_6912828559370990009_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=5f2048&_nc_ohc=3jjV57TofSoAX8u_zj_&_nc_ht=scontent.fsgn8-3.fna&cb_e2o_trans=q&oh=00_AfDteYSDFi4pjwfBaKlllqn8NuNDaIz4Kbsau-FThN18mg&oe=6545EC65",
+                    name: "Tubanur Dogan",
+                    description:
+                        "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 90,
+                    code: "A011",
+                },
+                {
+                    thumbnail:
                         "https://scontent.fsgn8-3.fna.fbcdn.net/v/t39.30808-6/395734477_2968922213249536_3046723594069010367_n.jpg?stp=dst-jpg_p526x296&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_ohc=W6vpPRyfAM8AX_fOkFX&_nc_ht=scontent.fsgn8-3.fna&cb_e2o_trans=q&oh=00_AfA2aSYV_ABUmFd8MX5Qw9_xSfOFdXFTDA4QFjmBuohByA&oe=6542B9E5",
+                    name: "Pretty_flavours",
+                    description:
+                        "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 111,
+                    code: "A012",
+                },
+                {
+                    thumbnail:
+                        "https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/394022040_3407765202869237_5057702592539675314_n.jpg?stp=cp6_dst-jpg&_nc_cat=103&ccb=1-7&_nc_sid=5f2048&_nc_ohc=sAKgueMp7pcAX-rENnm&_nc_ht=scontent.fsgn8-4.fna&cb_e2o_trans=q&oh=00_AfBdzTx3qw07jIto4oQmgkG6cDvcxXxEes0EWjFapMriuA&oe=65469089",
                     name: "Pretty_flavours",
                     description:
                         "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",

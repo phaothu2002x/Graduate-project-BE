@@ -9,14 +9,16 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Feedback.belongsTo(models.Product);
+            Feedback.belongsTo(models.User);
         }
     }
     Feedback.init(
         {
             rating: DataTypes.FLOAT,
             message: DataTypes.TEXT,
-            productId: DataTypes.INTEGER,
-            userId: DataTypes.INTEGER,
+            ProductId: DataTypes.INTEGER,
+            UserId: DataTypes.INTEGER,
         },
         {
             sequelize,
