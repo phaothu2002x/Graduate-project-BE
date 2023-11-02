@@ -123,19 +123,53 @@ const createProduct = async (data) => {
         };
     }
 };
-const updateUser = async (data) => {
+
+const findProductById = async (productId) => {
     try {
-        if (!data.roleId) {
+        let product = await db.Product.findOne({
+            where: { id: productId },
+            include: [
+                { model: db.Supplier },
+                { model: db.Brand },
+                { model: db.Category },
+            ],
+        });
+        if (product) {
             return {
-                EM: "Error with empty roleId ",
+                EM: "Find OK!",
+                EC: 0,
+                DT: product.get({ plain: true }),
+            };
+        } else {
+            return {
+                EM: "not found product!",
                 EC: 1,
-                DT: "role",
+                DT: [],
             };
         }
-        let user = await db.User.findOne({
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
+
+const updateProduct = async (data) => {
+    try {
+        if (!data.id) {
+            return {
+                EM: "Error with empty id ",
+                EC: 1,
+                DT: [],
+            };
+        }
+        let productItem = await db.User.findOne({
             where: { id: data.id },
         });
-        if (user) {
+        if (productItem) {
             await user.update({
                 username: data.username,
                 roleId: data.roleId,
@@ -197,10 +231,45 @@ const DeleteProduct = async (id) => {
     }
 };
 
+const findAllSelectList = async () => {
+    try {
+        let selectList = {};
+        let brandList = await db.Brand.findAll();
+        let categoryList = await db.Category.findAll();
+        let supplierList = await db.Supplier.findAll(); // if nothing=> return []
+        selectList.brand = brandList;
+        selectList.category = categoryList;
+        selectList.supplier = supplierList;
+
+        if (selectList) {
+            return {
+                EM: "Select list OK!",
+                EC: 0,
+                DT: selectList,
+            };
+        } else {
+            return {
+                EM: "not found Select List!",
+                EC: 1,
+                DT: [],
+            };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
+
 module.exports = {
     getAllProduct,
     getProductWithPagination,
     createProduct,
-    updateUser,
+    updateProduct,
     DeleteProduct,
+    findProductById,
+    findAllSelectList,
 };
