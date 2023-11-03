@@ -73,7 +73,7 @@ const findTypeFunc = async (req, res) => {
     try {
         // console.log("check id", req.params.id);
         let data = await productService.findTypeThroughCate(req.params.id);
-        console.log("check find product", data); //=> find thanh cong
+        // console.log("check find product", data); //=> find thanh cong
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -91,14 +91,15 @@ const findTypeFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        // console.log(">>> check body", req.params); =>>{id:54}
+        // console.log(">>> check body", req.body); //
         //find productbyid
-        // let data = await productService.updateProduct(req.params);
-        // return res.status(200).json({
-        //     EM: data.EM,
-        //     EC: data.EC,
-        //     DT: data.DT,
-        // });
+        let productItem = await productService.findProductById(req.body.id);
+        let data = await productService.updateProduct(productItem.DT, req.body);
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({

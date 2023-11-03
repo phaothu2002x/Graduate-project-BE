@@ -150,7 +150,7 @@ const findProductById = async (productId) => {
             return {
                 EM: "Find OK!",
                 EC: 0,
-                DT: product.get({ plain: true }),
+                DT: product,
             };
         } else {
             return {
@@ -169,35 +169,34 @@ const findProductById = async (productId) => {
     }
 };
 
-const updateProduct = async (data) => {
+const updateProduct = async (productItem, updateData) => {
     try {
-        if (!data.id) {
-            return {
-                EM: "Error with empty id ",
-                EC: 1,
-                DT: [],
-            };
-        }
-        let productItem = await db.User.findOne({
-            where: { id: data.id },
-        });
-        if (productItem) {
-            await user.update({
-                username: data.username,
-                roleId: data.roleId,
-            });
-            return {
-                EM: "Update OK!",
-                EC: 0,
-                DT: "",
-            };
-        } else {
+        if (!productItem) {
             return {
                 EM: "Not found user ",
                 EC: 2,
                 DT: "",
             };
         }
+        const { typeChecked, categoryChecked } = updateData;
+
+        await productItem.update({
+            name: updateData.name,
+            thumbnail: updateData.thumbnail,
+            price: updateData.price,
+            description: updateData.description,
+            code: updateData.code,
+            BrandId: updateData.brandChecked,
+            CategoryId: updateData.categoryChecked,
+        });
+        // //update cais association
+        productItem.setSuppliers(categoryChecked);
+        productItem.setTypes(typeChecked);
+        return {
+            EM: "Update OK!",
+            EC: 0,
+            DT: "",
+        };
     } catch (error) {
         console.log(error);
         return {
@@ -212,12 +211,6 @@ const DeleteProduct = async (id) => {
         let product = await db.Product.findOne({
             where: { id: id },
         });
-        //find association=> delete it
-        // let supplier = await db.Supplier.findOne({
-        //     include: { model: db.Product, where: { id: id } },
-        // });
-        // await product.removeSupplier(supplier);
-
         if (product) {
             await product.destroy();
 
