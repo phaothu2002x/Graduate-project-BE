@@ -87,11 +87,11 @@ const createProduct = async (data) => {
             brandChecked,
             cateChecked,
             supChecked,
+            typeSelect,
         } = data;
 
         // check product code
-
-        //create
+        // create
         let product = await db.Product.create({
             name,
             thumbnail,
@@ -103,12 +103,23 @@ const createProduct = async (data) => {
         });
         //test
 
-        //create association
+        //add association of type,  supplier
+        let type = await db.Type.findAll({
+            where: { id: typeSelect },
+        });
+        console.log("check type", type);
         let supplier = await db.Supplier.findOne({
             where: { id: supChecked },
         });
-        await product.setSuppliers(supplier);
-
+        if (!type || !supplier) {
+            return {
+                EM: "something wrong when query data in services",
+                EC: 2,
+                DT: [],
+            };
+        }
+        await product.addSupplier(supplier);
+        await product.addTypes(type);
         return {
             EM: "create Ok!",
             EC: 0,
@@ -132,6 +143,7 @@ const findProductById = async (productId) => {
                 { model: db.Supplier },
                 { model: db.Brand },
                 { model: db.Category },
+                { model: db.Type },
             ],
         });
         if (product) {
@@ -201,10 +213,10 @@ const DeleteProduct = async (id) => {
             where: { id: id },
         });
         //find association=> delete it
-        let supplier = await db.Supplier.findOne({
-            include: { model: db.Product, where: { id: id } },
-        });
-        await product.removeSupplier(supplier);
+        // let supplier = await db.Supplier.findOne({
+        //     include: { model: db.Product, where: { id: id } },
+        // });
+        // await product.removeSupplier(supplier);
 
         if (product) {
             await product.destroy();
@@ -269,7 +281,6 @@ const findTypeThroughCate = async (CategoryId) => {
         let typeList = await db.Type.findAll({
             include: { model: db.Category, where: { id: CategoryId } },
         });
-        console.log(typeList);
         if (typeList && typeList.length > 0) {
             return {
                 EM: "Type list fetch OK!",
