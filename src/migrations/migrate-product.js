@@ -17,10 +17,16 @@ module.exports = {
             description: {
                 type: Sequelize.TEXT,
             },
-            brandId: {
+            price: {
+                type: Sequelize.FLOAT,
+            },
+            code: {
+                type: Sequelize.STRING,
+            },
+            BrandId: {
                 type: Sequelize.INTEGER,
             },
-            productPriceId: {
+            CategoryID: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

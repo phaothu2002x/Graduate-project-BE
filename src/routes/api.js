@@ -2,6 +2,7 @@ import express from "express";
 import apiController from "../controller/apiController";
 import userController from "../controller/userController";
 import roleController from "../controller/roleController";
+
 const router = express.Router();
 
 /**
@@ -15,7 +16,7 @@ const initApiRoutes = (app) => {
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
 
-    // CRUD
+    // CRUD user
     router.get("/manage-user/read", userController.readFunc);
     router.post("/manage-user/create", userController.createFunc);
     router.put("/manage-user/update", userController.updateFunc);

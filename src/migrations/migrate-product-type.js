@@ -8,13 +8,12 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            typeId: {
+            TypeId: {
                 type: Sequelize.INTEGER,
             },
-            productId: {
+            ProductId: {
                 type: Sequelize.INTEGER,
             },
-
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

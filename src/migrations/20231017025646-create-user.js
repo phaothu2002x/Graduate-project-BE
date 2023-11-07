@@ -20,7 +20,7 @@ module.exports = {
             password: {
                 type: Sequelize.STRING,
             },
-            roleId: {
+            RoleId: {
                 type: Sequelize.INTEGER,
             },
             createdAt: {

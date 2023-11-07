@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
             price: DataTypes.FLOAT,
             total: DataTypes.FLOAT,
             subtotal: DataTypes.FLOAT,
-            orderId: DataTypes.INTEGER,
-            productId: DataTypes.INTEGER,
+            OrderId: DataTypes.INTEGER,
+            ProductId: DataTypes.INTEGER,
         },
         {
             sequelize,

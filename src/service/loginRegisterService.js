@@ -96,7 +96,7 @@ const handleLogin = async (rawUserData) => {
                 rawUserData.password,
                 user.password
             );
-            console.log(isCorrectPassword);
+
             if (isCorrectPassword === true) {
                 return {
                     EM: "Ok",

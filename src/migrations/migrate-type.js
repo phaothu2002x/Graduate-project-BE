@@ -14,6 +14,12 @@ module.exports = {
             description: {
                 type: Sequelize.STRING,
             },
+            CategoryId: {
+                type: Sequelize.INTEGER,
+            },
+            ProductId: {
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,

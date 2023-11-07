@@ -19,8 +19,8 @@ const getAllUser = async () => {
             };
         } else {
             return {
-                EM: "get data success",
-                EC: 0,
+                EM: "get data failed",
+                EC: 1,
                 DT: [],
             };
         }
