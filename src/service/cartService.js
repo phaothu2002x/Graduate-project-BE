@@ -76,52 +76,41 @@ const getProductWithPagination = async (page, limit) => {
     }
 };
 
-const createProduct = async (data) => {
+const addToCart = async (data) => {
     try {
-        const {
-            thumbnail,
-            name,
-            description,
-            price,
-            code,
-            brandChecked,
-            cateChecked,
-            supChecked,
-            typeSelect,
-        } = data;
+        // check product co trong cart chua=> neu co chi add so luong, neu chua thi add sl + product id
+        let checkProductExist = await db.Cart.findOne({
+            where: { ProductId: data.productId },
+            raw: true,
+        });
 
-        // check product code
-        // create
-        let product = await db.Product.create({
-            name,
-            thumbnail,
-            description,
-            price,
-            code,
-            BrandId: brandChecked,
-            CategoryId: cateChecked,
-        });
-        //test
+        if (checkProductExist) {
+            await db.Cart.update(
+                {
+                    quantity: data.quantity + checkProductExist.quantity,
+                },
+                {
+                    where: {
+                        ProductId: data.productId,
+                    },
+                }
+            );
 
-        //add association of type,  supplier
-        let type = await db.Type.findAll({
-            where: { id: typeSelect },
-        });
-        // console.log("check type", type);
-        let supplier = await db.Supplier.findOne({
-            where: { id: supChecked },
-        });
-        if (!type || !supplier) {
             return {
-                EM: "something wrong when query data in services",
-                EC: 2,
+                EM: "update Ok!",
+                EC: 0,
                 DT: [],
             };
         }
-        await product.addSupplier(supplier);
-        await product.addTypes(type);
+        // create
+        await db.Cart.create({
+            ProductId: data.productId,
+            quantity: data.quantity,
+        });
+        //create association
+
         return {
-            EM: "create Ok!",
+            EM: "add Ok!",
             EC: 0,
             DT: [],
         };
@@ -135,22 +124,16 @@ const createProduct = async (data) => {
     }
 };
 
-const findProductById = async (productId) => {
+const findProductInCart = async (productId) => {
     try {
-        let product = await db.Product.findOne({
-            where: { id: productId },
-            include: [
-                { model: db.Supplier },
-                { model: db.Brand },
-                { model: db.Category },
-                { model: db.Type },
-            ],
+        let productExist = await db.Cart.findOne({
+            where: { ProductId: productId },
         });
-        if (product) {
+        if (productExist) {
             return {
                 EM: "Find OK!",
                 EC: 0,
-                DT: product,
+                DT: [],
             };
         } else {
             return {
@@ -169,7 +152,7 @@ const findProductById = async (productId) => {
     }
 };
 
-const updateProduct = async (productItem, updateData) => {
+const updateCartList = async (productItem, updateData) => {
     try {
         if (!productItem) {
             return {
@@ -300,10 +283,10 @@ const findTypeThroughCate = async (CategoryId) => {
 module.exports = {
     getAllProduct,
     getProductWithPagination,
-    createProduct,
-    updateProduct,
+    addToCart,
+    updateCartList,
     DeleteProduct,
-    findProductById,
+    findProductInCart,
     findAllSelectList,
     findTypeThroughCate,
 };
