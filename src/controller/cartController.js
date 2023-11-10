@@ -3,26 +3,12 @@ import cartService from "../service/cartService";
 
 const readFunc = async (req, res) => {
     try {
-        if (req.query.page && req.query.limit) {
-            let page = req.query.page;
-            let limit = req.query.limit;
-            let data = await productService.getProductWithPagination(
-                +page,
-                +limit
-            );
-            return res.status(200).json({
-                EM: data.EM,
-                EC: data.EC,
-                DT: data.DT,
-            });
-        } else {
-            let data = await productService.getAllProduct();
-            return res.status(200).json({
-                EM: data.EM,
-                EC: data.EC,
-                DT: data.DT,
-            });
-        }
+        let data = await cartService.getAllItemInCart();
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -35,7 +21,7 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-        console.log("checkres", req.body);
+        // console.log("checkres", req.body);
         let data = await cartService.addToCart(req.body);
 
         return res.status(200).json({

@@ -19,17 +19,15 @@ module.exports = (sequelize, DataTypes) => {
             Product.belongsToMany(models.Promotion, {
                 through: "Product_Promotion",
             });
-
             Product.belongsToMany(models.Supplier, {
                 through: "Product_Supplier",
+            });
+            Product.belongsToMany(models.User, {
+                through: "Cart",
             });
 
             Product.belongsToMany(models.Type, {
                 through: "Product_Type",
-            });
-
-            Product.belongsToMany(models.User, {
-                through: "Cart",
             });
         }
     }

@@ -1,71 +1,45 @@
 import db from "../models/index";
-
-const getAllProduct = async () => {
+const { Op } = require("sequelize");
+const getAllItemInCart = async () => {
     try {
-        let products = await db.Product.findAll({
-            attributes: [
-                "id",
-                "thumbnail",
-                "name",
-                "description",
-                "price",
-                "code",
-            ],
+        let cartList = await db.Cart.findAll({
+            // include: [{ model: db.Product }],
+            attributes: ["ProductId", "quantity"],
+            order: [["ProductId", "ASC"]],
+            raw: true,
+        });
+        //extract
+        const productIds = cartList.map((item) => item.ProductId);
+        // console.log("check data", productIds);
+        let cartData = await db.Product.findAll({
+            where: {
+                id: { [Op.in]: productIds },
+            },
+            attributes: ["id", "thumbnail", "name", "price"],
+            // include: [{ model: db.User }],
+            nest: true,
+            raw: true,
+        });
+        // console.log("check data", { cartList, cartData });
+
+        let data = cartData.map((object, index) => {
+            return { ...object, quantity: cartList[index].quantity };
         });
 
-        if (products) {
+        // let result = { cartData, cartList };
+        if (data) {
             return {
-                EM: "get data success",
+                EM: "get Item in cart success",
                 EC: 0,
-                DT: products,
+                DT: data,
             };
         } else {
             return {
-                EM: "get data failed",
+                EM: "get Item in cart failed",
                 EC: 1,
                 DT: [],
             };
         }
-    } catch (error) {
-        console.log(error);
-        return {
-            EM: "something wrong with services",
-            EC: 1,
-            DT: [],
-        };
-    }
-};
-
-const getProductWithPagination = async (page, limit) => {
-    try {
-        let offset = (page - 1) * limit;
-
-        const { count, rows } = await db.Product.findAndCountAll({
-            attributes: [
-                "id",
-                "thumbnail",
-                "name",
-                "description",
-                "price",
-                "code",
-            ],
-
-            order: [["id", "DESC"]],
-            offset: offset,
-            limit: limit,
-        });
-
-        let totalPages = Math.ceil(count / limit);
-        let data = {
-            totalRow: count,
-            totalPages: totalPages,
-            product: rows,
-        };
-        return {
-            EM: "get pagination success",
-            EC: 0,
-            DT: data,
-        };
     } catch (error) {
         console.log(error);
         return {
@@ -81,7 +55,6 @@ const addToCart = async (data) => {
         // check product co trong cart chua=> neu co chi add so luong, neu chua thi add sl + product id
         let checkProductExist = await db.Cart.findOne({
             where: { ProductId: data.productId },
-            raw: true,
         });
 
         if (checkProductExist) {
@@ -102,11 +75,12 @@ const addToCart = async (data) => {
                 DT: [],
             };
         }
-        // create
+        // create;
         await db.Cart.create({
             ProductId: data.productId,
             quantity: data.quantity,
         });
+
         //create association
 
         return {
@@ -281,8 +255,8 @@ const findTypeThroughCate = async (CategoryId) => {
 };
 
 module.exports = {
-    getAllProduct,
-    getProductWithPagination,
+    getAllItemInCart,
+
     addToCart,
     updateCartList,
     DeleteProduct,

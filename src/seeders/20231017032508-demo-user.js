@@ -114,6 +114,24 @@ module.exports = {
                     price: 111,
                     code: "A012",
                 },
+                {
+                    thumbnail:
+                        "https://scontent.fsgn8-3.fna.fbcdn.net/v/t39.30808-6/347604309_3696653077250521_7183040639651625007_n.jpg?stp=cp6_dst-jpg&_nc_cat=104&ccb=1-7&_nc_sid=5f2048&_nc_ohc=PCw16OENK1AAX_Lz0-q&_nc_ht=scontent.fsgn8-3.fna&cb_e2o_trans=q&oh=00_AfACflsHoQ0-qRyqB5kHOuh2rAVZUs0YsiVagArZaR2ivg&oe=65531BF8",
+                    name: "Pretty_flavours",
+                    description:
+                        "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 333,
+                    code: "A022",
+                },
+                {
+                    thumbnail:
+                        "https://scontent.fsgn8-4.fna.fbcdn.net/v/t39.30808-6/334471370_1387849795297884_5403286428057420422_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=5f2048&_nc_ohc=BMk90Akh_FEAX9qBsf-&_nc_ht=scontent.fsgn8-4.fna&cb_e2o_trans=q&oh=00_AfCvgtEqS8f-X272G-YyqpcbWpVrRCEATI_rM7w2EhWs8g&oe=654F0B88",
+                    name: "Pretty_flavours",
+                    description:
+                        "The following is an example of a migration that performs two changes in the database, using an automatically-managed transaction to ensure that all instructions are successfully executed or rolled back in case of failure",
+                    price: 111,
+                    code: "A0123",
+                },
             ],
             {}
         );
