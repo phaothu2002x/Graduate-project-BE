@@ -99,7 +99,8 @@ const updateFunc = async (req, res) => {
 };
 const deleteFunc = async (req, res) => {
     try {
-        let data = await productService.DeleteProduct(req.body.id);
+        // console.log(req.body);
+        let data = await cartService.DeleteItemInCart(req.body.id);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

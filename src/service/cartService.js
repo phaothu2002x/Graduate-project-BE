@@ -163,22 +163,22 @@ const updateCartList = async (productItem, updateData) => {
         };
     }
 };
-const DeleteProduct = async (id) => {
+const DeleteItemInCart = async (itemId) => {
     try {
-        let product = await db.Product.findOne({
-            where: { id: id },
+        let itemInCart = await db.Cart.findOne({
+            where: { ProductId: itemId },
         });
-        if (product) {
-            await product.destroy();
-
+        // console.log("check item", itemInCart);
+        if (itemInCart) {
+            await itemInCart.destroy();
             return {
-                EM: "delete product successfully",
+                EM: "delete Item in Cart successfully",
                 EC: 0,
                 DT: [],
             };
         } else {
             return {
-                EM: "Product id not exist",
+                EM: "Item id not exist",
                 EC: 2,
                 DT: [],
             };
@@ -256,10 +256,9 @@ const findTypeThroughCate = async (CategoryId) => {
 
 module.exports = {
     getAllItemInCart,
-
     addToCart,
     updateCartList,
-    DeleteProduct,
+    DeleteItemInCart,
     findProductInCart,
     findAllSelectList,
     findTypeThroughCate,
