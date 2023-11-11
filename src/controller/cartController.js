@@ -79,10 +79,8 @@ const findTypeFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        // console.log(">>> check body", req.body); //
-        //find productbyid
-        let productItem = await productService.findProductById(req.body.id);
-        let data = await productService.updateProduct(productItem.DT, req.body);
+        // console.log(">>> check body", req.body); //check body { productId: 8, quantity: 20 }
+        let data = await cartService.updateCartList(req.body);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

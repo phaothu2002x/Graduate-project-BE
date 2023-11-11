@@ -126,31 +126,29 @@ const findProductInCart = async (productId) => {
     }
 };
 
-const updateCartList = async (productItem, updateData) => {
+const findItemInCart = async (itemId) => {
+    let itemInCartExist = await db.Cart.findOne({
+        where: { ProductId: itemId },
+    });
+    return itemInCartExist;
+};
+
+const updateCartList = async (data) => {
     try {
-        if (!productItem) {
+        const { itemId, quantity } = data;
+        let check = findItemInCart(itemId);
+        if (!check) {
             return {
-                EM: "Not found user ",
+                EM: "Not found Item ",
                 EC: 2,
                 DT: "",
             };
         }
-        const { typeChecked, categoryChecked } = updateData;
 
-        await productItem.update({
-            name: updateData.name,
-            thumbnail: updateData.thumbnail,
-            price: updateData.price,
-            description: updateData.description,
-            code: updateData.code,
-            BrandId: updateData.brandChecked,
-            CategoryId: updateData.categoryChecked,
-        });
-        // //update cais association
-        productItem.setSuppliers(categoryChecked);
-        productItem.setTypes(typeChecked);
+        await db.Cart.update({ quantity }, { where: { ProductId: itemId } });
+
         return {
-            EM: "Update OK!",
+            EM: "Update Cart OK!",
             EC: 0,
             DT: "",
         };
@@ -226,34 +224,6 @@ const findAllSelectList = async () => {
     }
 };
 
-const findTypeThroughCate = async (CategoryId) => {
-    try {
-        let typeList = await db.Type.findAll({
-            include: { model: db.Category, where: { id: CategoryId } },
-        });
-        if (typeList && typeList.length > 0) {
-            return {
-                EM: "Type list fetch OK!",
-                EC: 0,
-                DT: typeList,
-            };
-        } else {
-            return {
-                EM: "not found Type List!",
-                EC: 1,
-                DT: [],
-            };
-        }
-    } catch (error) {
-        console.log(error);
-        return {
-            EM: "something wrong with services",
-            EC: 1,
-            DT: [],
-        };
-    }
-};
-
 module.exports = {
     getAllItemInCart,
     addToCart,
@@ -261,5 +231,4 @@ module.exports = {
     DeleteItemInCart,
     findProductInCart,
     findAllSelectList,
-    findTypeThroughCate,
 };
