@@ -4,10 +4,11 @@ const getAllItemInCart = async () => {
     try {
         let cartList = await db.Cart.findAll({
             // include: [{ model: db.Product }],
-            attributes: ["ProductId", "quantity"],
+            attributes: ["ProductId", "quantity", "totalPrice"],
             order: [["ProductId", "ASC"]],
             raw: true,
         });
+        // console.log(cartList);
         //extract
         const productIds = cartList.map((item) => item.ProductId);
         // console.log("check data", productIds);
@@ -23,7 +24,11 @@ const getAllItemInCart = async () => {
         // console.log("check data", { cartList, cartData });
 
         let data = cartData.map((object, index) => {
-            return { ...object, quantity: cartList[index].quantity };
+            return {
+                ...object,
+                quantity: cartList[index].quantity,
+                totalPrice: cartList[index].totalPrice,
+            };
         });
 
         // let result = { cartData, cartList };
@@ -61,6 +66,9 @@ const addToCart = async (data) => {
             await db.Cart.update(
                 {
                     quantity: data.quantity + checkProductExist.quantity,
+                    totalPrice:
+                        data.price * data.quantity +
+                        checkProductExist.totalPrice,
                 },
                 {
                     where: {
@@ -79,12 +87,13 @@ const addToCart = async (data) => {
         await db.Cart.create({
             ProductId: data.productId,
             quantity: data.quantity,
+            totalPrice: data.quantity * data.price,
         });
 
         //create association
 
         return {
-            EM: "add Ok!",
+            EM: "Add to Cart Ok!",
             EC: 0,
             DT: [],
         };
@@ -135,7 +144,7 @@ const findItemInCart = async (itemId) => {
 
 const updateCartList = async (data) => {
     try {
-        const { itemId, quantity } = data;
+        const { itemId, quantity, totalPrice } = data;
         let check = findItemInCart(itemId);
         if (!check) {
             return {
@@ -145,7 +154,10 @@ const updateCartList = async (data) => {
             };
         }
 
-        await db.Cart.update({ quantity }, { where: { ProductId: itemId } });
+        await db.Cart.update(
+            { quantity, totalPrice },
+            { where: { ProductId: itemId } }
+        );
 
         return {
             EM: "Update Cart OK!",
