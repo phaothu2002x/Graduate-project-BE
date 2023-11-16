@@ -8,22 +8,18 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
-                type: Sequelize.STRING,
-            },
+
             quantity: {
                 type: Sequelize.INTEGER,
             },
             price: {
                 type: Sequelize.FLOAT,
             },
-            total: {
+            totalPrice: {
                 type: Sequelize.FLOAT,
             },
-            subtotal: {
-                type: Sequelize.FLOAT,
-            },
-            OrderId: {
+
+            OrderInfoId: {
                 type: Sequelize.INTEGER,
             },
             ProductId: {

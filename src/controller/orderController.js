@@ -20,7 +20,8 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-        // console.log("checkres", req.body);
+        // console.log("checkreq", req.body); // ok
+
         let data = await orderService.createOrder(req.body);
 
         return res.status(200).json({

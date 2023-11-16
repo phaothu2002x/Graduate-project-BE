@@ -91,7 +91,6 @@ const addToCart = async (data) => {
         });
 
         //create association
-
         return {
             EM: "Add to Cart Ok!",
             EC: 0,
@@ -203,44 +202,10 @@ const DeleteItemInCart = async (itemId) => {
     }
 };
 
-const findAllSelectList = async () => {
-    try {
-        let selectList = {};
-        let brandList = await db.Brand.findAll();
-        let categoryList = await db.Category.findAll();
-        let supplierList = await db.Supplier.findAll(); // if nothing=> return []
-        selectList.brand = brandList;
-        selectList.category = categoryList;
-        selectList.supplier = supplierList;
-
-        if (selectList) {
-            return {
-                EM: "Select list OK!",
-                EC: 0,
-                DT: selectList,
-            };
-        } else {
-            return {
-                EM: "not found Select List!",
-                EC: 1,
-                DT: [],
-            };
-        }
-    } catch (error) {
-        console.log(error);
-        return {
-            EM: "something wrong with services",
-            EC: 1,
-            DT: [],
-        };
-    }
-};
-
 module.exports = {
     getAllItemInCart,
     addToCart,
     updateCartList,
     DeleteItemInCart,
     findProductInCart,
-    findAllSelectList,
 };

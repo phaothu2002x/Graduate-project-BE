@@ -9,18 +9,16 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Order_Detail.belongsTo(models.Order_Info);
-            Order_Detail.belongsTo(models.Product);
+            // Order_Detail.belongsTo(models.Order_Info);
+            // Order_Detail.belongsTo(models.Product);
         }
     }
     Order_Detail.init(
         {
-            name: DataTypes.STRING,
             quantity: DataTypes.INTEGER,
             price: DataTypes.FLOAT,
-            total: DataTypes.FLOAT,
-            subtotal: DataTypes.FLOAT,
-            OrderId: DataTypes.INTEGER,
+            totalPrice: DataTypes.FLOAT,
+            OrderInfoId: DataTypes.INTEGER,
             ProductId: DataTypes.INTEGER,
         },
         {

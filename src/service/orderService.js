@@ -55,48 +55,63 @@ const getAllItemInCart = async () => {
     }
 };
 
-const addToCart = async (data) => {
+const createOrder = async (data) => {
     try {
-        // check product co trong cart chua=> neu co chi add so luong, neu chua thi add sl + product id
-        let checkProductExist = await db.Cart.findOne({
-            where: { ProductId: data.productId },
-        });
-
-        if (checkProductExist) {
-            await db.Cart.update(
-                {
-                    quantity: data.quantity + checkProductExist.quantity,
-                    totalPrice:
-                        data.price * data.quantity +
-                        checkProductExist.totalPrice,
-                },
-                {
-                    where: {
-                        ProductId: data.productId,
+        // console.log("checkdata", data);
+        let orderInfo;
+        const { userValue, totalPriceInCart, productList } = data;
+        if (data.userValue && data.totalPriceInCart && data.productList) {
+            orderInfo = await db.Order_Info.create({
+                name: userValue.name,
+                email: userValue.email,
+                phone: userValue.phone,
+                address: userValue.address,
+                note: userValue.note,
+                amount: totalPriceInCart,
+            });
+            //create asociation
+            productList.map(async (item) => {
+                const data = {
+                    productId: item.id,
+                    quantity: item.quantity,
+                    price: item.price,
+                    totalPrice: item.totalPrice,
+                };
+                const { productId, quantity, price, totalPrice } = data;
+                let product = await db.Product.findByPk(productId);
+                // console.log(product);
+                await orderInfo.addProducts(product, {
+                    through: {
+                        quantity: quantity,
+                        price: price,
+                        totalPrice: totalPrice,
                     },
-                }
-            );
-
+                });
+            });
+        } else {
             return {
-                EM: "update Ok!",
-                EC: 0,
+                EM: "missing value from FE!",
+                EC: 1,
                 DT: [],
             };
         }
-        // create;
-        await db.Cart.create({
-            ProductId: data.productId,
-            quantity: data.quantity,
-            totalPrice: data.quantity * data.price,
-        });
-
-        //create association
-
         return {
-            EM: "Add to Cart Ok!",
+            EM: "Make order successfully!",
             EC: 0,
             DT: [],
         };
+        //check postman
+        // let postman = await db.Order_Info.findAll({
+        //     where: { id: 10 },
+        //     include: [
+        //         {
+        //             model: db.Product,
+        //             through: {
+        //                 attributes: [],
+        //             },
+        //         },
+        //     ],
+        // });
     } catch (error) {
         console.log(error);
         return {
@@ -238,7 +253,7 @@ const findAllSelectList = async () => {
 
 module.exports = {
     getAllItemInCart,
-    addToCart,
+    createOrder,
     updateCartList,
     DeleteItemInCart,
     findProductInCart,
