@@ -8,7 +8,7 @@ const initOrderApiRoutes = (app) => {
     //CRUD cart
     router.get("/order/read", orderController.readFunc);
     router.post("/order/create", orderController.createFunc);
-    router.put("/order/update", cartController.updateFunc);
+    router.put("/order/update", orderController.updateFunc);
     router.get("/order/findProduct/:id", cartController.findFunc);
     router.delete("/order/delete", cartController.deleteFunc);
 

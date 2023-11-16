@@ -123,32 +123,32 @@ const findProductInCart = async (productId) => {
     }
 };
 
-const findItemInCart = async (itemId) => {
-    let itemInCartExist = await db.Cart.findOne({
-        where: { ProductId: itemId },
+const findOrder = async (orderId) => {
+    let orderExist = await db.Order_Info.findOne({
+        where: { id: orderId },
     });
-    return itemInCartExist;
+    return orderExist;
 };
 
-const updateCartList = async (data) => {
+const updateOrderStatus = async (data) => {
     try {
-        const { itemId, quantity, totalPrice } = data;
-        let check = findItemInCart(itemId);
+        const { orderId, statusValue } = data;
+        let check = findOrder(orderId);
         if (!check) {
             return {
-                EM: "Not found Item ",
+                EM: "Not found Order ",
                 EC: 2,
                 DT: "",
             };
         }
 
-        await db.Cart.update(
-            { quantity, totalPrice },
-            { where: { ProductId: itemId } }
+        await db.Order_Info.update(
+            { status: statusValue },
+            { where: { id: orderId } }
         );
 
         return {
-            EM: "Update Cart OK!",
+            EM: "Update Order Status OK!",
             EC: 0,
             DT: "",
         };
@@ -227,7 +227,7 @@ const findAllSelectList = async () => {
 module.exports = {
     getAllOrders,
     createOrder,
-    updateCartList,
+    updateOrderStatus,
     DeleteItemInCart,
     findProductInCart,
     findAllSelectList,

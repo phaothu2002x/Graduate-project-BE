@@ -41,8 +41,8 @@ const createFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        // console.log(">>> check body", req.body); //check body { productId: 8, quantity: 20, }
-        let data = await orderService.updateCartList(req.body);
+        // console.log(">>> check body", req.body); //check body { orderId: 2, statusValue: 'da thanh toan', }
+        let data = await orderService.updateOrderStatus(req.body);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
