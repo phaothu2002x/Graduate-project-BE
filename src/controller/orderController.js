@@ -2,7 +2,7 @@ import orderService from "../service/orderService";
 
 const readFunc = async (req, res) => {
     try {
-        let data = await orderService.getAllItemInCart();
+        let data = await orderService.getAllOrders();
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

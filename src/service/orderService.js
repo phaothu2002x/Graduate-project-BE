@@ -1,46 +1,19 @@
 import db from "../models/index";
 const { Op } = require("sequelize");
-const getAllItemInCart = async () => {
+
+const getAllOrders = async () => {
     try {
-        let cartList = await db.Cart.findAll({
-            // include: [{ model: db.Product }],
-            attributes: ["ProductId", "quantity", "totalPrice"],
-            order: [["ProductId", "ASC"]],
-            raw: true,
-        });
-        // console.log(cartList);
-        //extract
-        const productIds = cartList.map((item) => item.ProductId);
-        // console.log("check data", productIds);
-        let cartData = await db.Product.findAll({
-            where: {
-                id: { [Op.in]: productIds },
-            },
-            attributes: ["id", "thumbnail", "name", "price"],
-            // include: [{ model: db.User }],
-            nest: true,
-            raw: true,
-        });
-        // console.log("check data", { cartList, cartData });
+        let data = await db.Order_Info.findAll({});
 
-        let data = cartData.map((object, index) => {
-            return {
-                ...object,
-                quantity: cartList[index].quantity,
-                totalPrice: cartList[index].totalPrice,
-            };
-        });
-
-        // let result = { cartData, cartList };
         if (data) {
             return {
-                EM: "get Item in cart success",
+                EM: "get Orders success",
                 EC: 0,
                 DT: data,
             };
         } else {
             return {
-                EM: "get Item in cart failed",
+                EM: "get Orders failed",
                 EC: 1,
                 DT: [],
             };
@@ -252,7 +225,7 @@ const findAllSelectList = async () => {
 };
 
 module.exports = {
-    getAllItemInCart,
+    getAllOrders,
     createOrder,
     updateCartList,
     DeleteItemInCart,
