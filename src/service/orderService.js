@@ -28,6 +28,37 @@ const getAllOrders = async () => {
     }
 };
 
+const getOrderWithPagination = async (page, limit) => {
+    try {
+        let offset = (page - 1) * limit;
+
+        const { count, rows } = await db.Order_Info.findAndCountAll({
+            order: [["id", "DESC"]],
+            offset: offset,
+            limit: limit,
+        });
+
+        let totalPages = Math.ceil(count / limit);
+        let data = {
+            totalRow: count,
+            totalPages: totalPages,
+            orders: rows,
+        };
+        return {
+            EM: "get pagination success",
+            EC: 0,
+            DT: data,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
+
 const createOrder = async (data) => {
     try {
         // console.log("checkdata", data);
@@ -41,6 +72,7 @@ const createOrder = async (data) => {
                 address: userValue.address,
                 note: userValue.note,
                 amount: totalPriceInCart,
+                status: "Not Paid",
             });
             //create asociation
             productList.map(async (item) => {
@@ -63,7 +95,7 @@ const createOrder = async (data) => {
             });
         } else {
             return {
-                EM: "missing value from FE!",
+                EM: "Your Cart is empty/ missing Order Information!",
                 EC: 1,
                 DT: [],
             };
@@ -161,22 +193,22 @@ const updateOrderStatus = async (data) => {
         };
     }
 };
-const DeleteItemInCart = async (itemId) => {
+const DeleteOrder = async (itemId) => {
     try {
-        let itemInCart = await db.Cart.findOne({
-            where: { ProductId: itemId },
+        let order = await db.Order_Info.findOne({
+            where: { id: itemId },
         });
         // console.log("check item", itemInCart);
-        if (itemInCart) {
-            await itemInCart.destroy();
+        if (order) {
+            await order.destroy();
             return {
-                EM: "delete Item in Cart successfully",
+                EM: "delete Order successfully",
                 EC: 0,
                 DT: [],
             };
         } else {
             return {
-                EM: "Item id not exist",
+                EM: "Order id not exist",
                 EC: 2,
                 DT: [],
             };
@@ -226,9 +258,10 @@ const findAllSelectList = async () => {
 
 module.exports = {
     getAllOrders,
+    getOrderWithPagination,
     createOrder,
     updateOrderStatus,
-    DeleteItemInCart,
+    DeleteOrder,
     findProductInCart,
     findAllSelectList,
 };
