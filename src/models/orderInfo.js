@@ -9,17 +9,31 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Order_Info.hasMany(models.Order_Detail, { foreignKey: "OrderId" });
+
+            // Order_Info.hasOne(models.Cart, { foreignKey: "OrderInfoId" });
+
             Order_Info.belongsTo(models.User);
+
+            Order_Info.belongsToMany(models.Payment_Method, {
+                through: "Order_Payment",
+            });
+
+            Order_Info.belongsToMany(models.Product, {
+                through: "Order_Detail",
+            });
+            // Order_Info.belongsToMany(models.Product, {
+            //     through: "Cart",
+            // });
         }
     }
     Order_Info.init(
         {
+            name: DataTypes.STRING,
             email: DataTypes.STRING,
-            phone: DataTypes.STRING,
             address: DataTypes.STRING,
-            orderDate: DataTypes.DATE,
-            paymentMethod: DataTypes.STRING,
+            phone: DataTypes.STRING,
+            note: DataTypes.TEXT,
+            amount: DataTypes.FLOAT,
             status: DataTypes.STRING,
             UserId: DataTypes.INTEGER,
         },

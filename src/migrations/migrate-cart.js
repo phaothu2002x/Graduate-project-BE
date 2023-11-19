@@ -1,36 +1,24 @@
 "use strict";
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable("Order_Info", {
+        await queryInterface.createTable("Cart", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            name: {
-                type: Sequelize.STRING,
-            },
-            email: {
-                type: Sequelize.STRING,
-            },
-            phone: {
-                type: Sequelize.STRING,
-            },
-            address: {
-                type: Sequelize.STRING,
-            },
-            note: {
-                type: Sequelize.STRING,
-            },
-            amount: {
-                type: Sequelize.STRING,
-            },
-            status: {
-                type: Sequelize.STRING,
+            ProductId: {
+                type: Sequelize.INTEGER,
             },
             UserId: {
                 type: Sequelize.INTEGER,
+            },
+            quantity: {
+                type: Sequelize.INTEGER,
+            },
+            totalPrice: {
+                type: Sequelize.FLOAT,
             },
             createdAt: {
                 allowNull: false,
@@ -43,6 +31,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable("Order_Info");
+        await queryInterface.dropTable("Cart");
     },
 };

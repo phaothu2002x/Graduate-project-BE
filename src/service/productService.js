@@ -107,7 +107,7 @@ const createProduct = async (data) => {
         let type = await db.Type.findAll({
             where: { id: typeSelect },
         });
-        console.log("check type", type);
+        // console.log("check type", type);
         let supplier = await db.Supplier.findOne({
             where: { id: supChecked },
         });

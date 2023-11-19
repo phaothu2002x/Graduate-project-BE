@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
             User.belongsTo(models.Role);
 
             User.hasMany(models.Feedback);
+            User.belongsToMany(models.Product, {
+                through: "Cart",
+            });
         }
     }
     User.init(
