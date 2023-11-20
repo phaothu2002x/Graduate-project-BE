@@ -10,7 +10,6 @@ const initOrderApiRoutes = (app) => {
     router.post("/order/create", orderController.createFunc);
     router.put("/order/update", orderController.updateFunc);
     router.delete("/order/delete", orderController.deleteFunc);
-    router.get("/order/findProduct/:id", cartController.findFunc);
 
     return app.use("/api/", router);
 };

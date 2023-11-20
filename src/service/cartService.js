@@ -106,34 +106,6 @@ const addToCart = async (data) => {
     }
 };
 
-const findProductInCart = async (productId) => {
-    try {
-        let productExist = await db.Cart.findOne({
-            where: { ProductId: productId },
-        });
-        if (productExist) {
-            return {
-                EM: "Find OK!",
-                EC: 0,
-                DT: [],
-            };
-        } else {
-            return {
-                EM: "not found product!",
-                EC: 1,
-                DT: [],
-            };
-        }
-    } catch (error) {
-        console.log(error);
-        return {
-            EM: "something wrong with services",
-            EC: 1,
-            DT: [],
-        };
-    }
-};
-
 const findItemInCart = async (itemId) => {
     let itemInCartExist = await db.Cart.findOne({
         where: { ProductId: itemId },
@@ -202,10 +174,40 @@ const DeleteItemInCart = async (itemId) => {
     }
 };
 
+const getPaymentMethod = async (data) => {
+    try {
+        let payment = await db.Payment_Method.findAll({
+            where: { id: data.id },
+            attributes: ["name", "description", "img"],
+        });
+
+        if (payment && payment.length > 0) {
+            return {
+                EM: "Find payment methods OK!",
+                EC: 0,
+                DT: payment,
+            };
+        } else {
+            return {
+                EM: "not found Payment Method!",
+                EC: 1,
+                DT: [],
+            };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
+
 module.exports = {
     getAllItemInCart,
     addToCart,
     updateCartList,
     DeleteItemInCart,
-    findProductInCart,
+    getPaymentMethod,
 };

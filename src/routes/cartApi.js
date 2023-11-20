@@ -8,8 +8,9 @@ const initCartApiRoutes = (app) => {
     router.get("/cart/read", cartController.readFunc);
     router.post("/cart/create", cartController.createFunc);
     router.put("/cart/update", cartController.updateFunc);
-    router.get("/cart/findProduct/:id", cartController.findFunc);
     router.delete("/cart/delete", cartController.deleteFunc);
+
+    router.get("/cart/payment/:id", cartController.getPaymentFunc);
 
     return app.use("/api/", router);
 };

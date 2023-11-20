@@ -5,6 +5,7 @@ import initApiRoutes from "./routes/api";
 import initProductApiRoutes from "./routes/productApi";
 import initCartApiRoutes from "./routes/cartApi";
 import initOrderApiRoutes from "./routes/orderApi";
+import initProfileApiRoutes from "./routes/profileApi";
 import bodyParser from "body-parser";
 import ConfigCors from "./config/cors";
 // import connection from "./config/connectDB";
@@ -32,6 +33,7 @@ initApiRoutes(app);
 initProductApiRoutes(app);
 initCartApiRoutes(app);
 initOrderApiRoutes(app);
+initProfileApiRoutes(app);
 
 app.listen(PORT, () => {
     console.log("start server at: ", PORT);
