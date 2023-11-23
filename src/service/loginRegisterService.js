@@ -64,6 +64,7 @@ const registerNewUser = async (rawUserData) => {
             email: rawUserData.email,
             phone: rawUserData.phone,
             password: hashPassword,
+            avatar: "https://res.cloudinary.com/dxpisdy2r/image/upload/f_auto,q_auto/v1/graduate-project/bkw1qqy6yqbhwskzw1t5",
         });
 
         return {

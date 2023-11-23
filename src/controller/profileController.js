@@ -42,8 +42,10 @@ const createFunc = async (req, res) => {
 const updateFunc = async (req, res) => {
     try {
         // console.log(">>> check body", req.body);
-        // console.log(">>> check file", req.file); ok
+        // console.log(">>> check file", req.file); // ok
+
         let data = await profileService.updateUserProfile(req.body, req.file);
+
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

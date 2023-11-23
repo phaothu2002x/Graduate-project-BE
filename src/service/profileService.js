@@ -1,5 +1,6 @@
 import db from "../models/index";
 const { Op } = require("sequelize");
+import { v2 as cloudinary } from "cloudinary";
 
 const findUserInDb = async (userId) => {
     let isUserExist = await db.User.findOne({
@@ -11,7 +12,7 @@ const findUserInDb = async (userId) => {
 const updateUserProfile = async (userData, file) => {
     try {
         const { username, email, phone } = userData;
-        const { path } = file;
+
         // let check = findUserInDb(itemId);
         // if (!check) {
         //     return {
@@ -20,9 +21,20 @@ const updateUserProfile = async (userData, file) => {
         //         DT: "",
         //     };
         // }
+        if (!file) {
+            await db.User.update(
+                { username, email, phone },
+                { where: { id: 1 } }
+            );
+            return {
+                EM: "Update User OK!",
+                EC: 0,
+                DT: "",
+            };
+        }
 
         await db.User.update(
-            { username, email, phone, avatar: path },
+            { username, email, phone, avatar: file.path },
             { where: { id: 1 } }
         );
 

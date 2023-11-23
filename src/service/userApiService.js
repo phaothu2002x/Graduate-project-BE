@@ -90,7 +90,10 @@ const createUser = async (data) => {
         let hashPassword = hashUserPassword(data.password);
 
         //create
-        await db.User.create({ ...data, password: hashPassword });
+        await db.User.create({
+            ...data,
+            password: hashPassword,
+        });
         return {
             EM: "create Ok!",
             EC: 0,
