@@ -7,6 +7,7 @@ import initCartApiRoutes from "./routes/cartApi";
 import initOrderApiRoutes from "./routes/orderApi";
 import initProfileApiRoutes from "./routes/profileApi";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import ConfigCors from "./config/cors";
 // import connection from "./config/connectDB";
 require("dotenv").config();
@@ -23,6 +24,9 @@ configViewEngine(app);
 //body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+//cookie parser
+app.use(cookieParser());
 
 //connection to db
 // connection();

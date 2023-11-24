@@ -2,6 +2,7 @@ import express from "express";
 import apiController from "../controller/apiController";
 import userController from "../controller/userController";
 import roleController from "../controller/roleController";
+import { checkUserJWT, checkUserPermission } from "../middleware/jwtActions";
 
 const router = express.Router();
 
@@ -12,12 +13,16 @@ const router = express.Router();
  */
 
 const initApiRoutes = (app) => {
-    router.get("/test-api", apiController.testApi);
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
 
     // CRUD user
-    router.get("/manage-user/read", userController.readFunc);
+    router.get(
+        "/manage-user/read",
+        checkUserJWT,
+        checkUserPermission,
+        userController.readFunc
+    );
     router.post("/manage-user/create", userController.createFunc);
     router.put("/manage-user/update", userController.updateFunc);
     router.delete("/manage-user/delete", userController.deleteFunc);
