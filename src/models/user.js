@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             User.hasMany(models.Order_Info, { foreignKey: "UserId" });
-            User.belongsTo(models.Role);
+            User.belongsTo(models.Group);
 
             User.hasMany(models.Feedback);
             User.belongsToMany(models.Product, {
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             email: DataTypes.STRING,
             phone: DataTypes.STRING,
             password: DataTypes.STRING,
-            roleId: DataTypes.INTEGER,
+            GroupId: DataTypes.INTEGER,
         },
         {
             sequelize,

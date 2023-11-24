@@ -1,13 +1,13 @@
 import db from "../models/index";
 
-const getRole = async () => {
+const getGroup = async () => {
     try {
-        let data = await db.Role.findAll({
+        let data = await db.Group.findAll({
             order: [["name", "ASC"]],
         });
 
         return {
-            EM: "get role ok",
+            EM: "get group ok",
             EC: 0,
             DT: data,
         };
@@ -22,5 +22,5 @@ const getRole = async () => {
 };
 
 module.exports = {
-    getRole,
+    getGroup,
 };

@@ -2,6 +2,8 @@ import { raw } from "body-parser";
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 import { Op } from "sequelize";
+import { getGroupWithRole } from "../service/JWTService";
+import { createJWT } from "../middleware/jwtActions";
 
 const salt = bcrypt.genSaltSync(10);
 const hashUserPassword = (userPassword) => {
@@ -64,6 +66,7 @@ const registerNewUser = async (rawUserData) => {
             email: rawUserData.email,
             phone: rawUserData.phone,
             password: hashPassword,
+            GroupId: 2,
             avatar: "https://res.cloudinary.com/dxpisdy2r/image/upload/f_auto,q_auto/v1/graduate-project/bkw1qqy6yqbhwskzw1t5",
         });
 
@@ -98,11 +101,20 @@ const handleLogin = async (rawUserData) => {
                 user.password
             );
 
+            let groupWithRole = await getGroupWithRole(user);
+            let payload = {
+                email: user.email,
+                groupWithRole,
+            };
+            let token = createJWT(payload);
             if (isCorrectPassword === true) {
                 return {
                     EM: "Ok",
                     EC: 0,
-                    DT: "",
+                    DT: {
+                        access_token: token,
+                        data: groupWithRole,
+                    },
                 };
             }
         }

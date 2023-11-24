@@ -2,7 +2,7 @@ import roleService from "../service/roleService";
 
 const readFunc = async (req, res) => {
     try {
-        let data = await roleService.getRole();
+        let data = await roleService.getGroup();
 
         return res.status(200).json({
             EM: data.EM,

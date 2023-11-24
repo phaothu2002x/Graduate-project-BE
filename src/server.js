@@ -27,6 +27,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //connection to db
 // connection();
 
+//test jwt => done
+
 //init web routes
 initWebRoutes(app);
 initApiRoutes(app);

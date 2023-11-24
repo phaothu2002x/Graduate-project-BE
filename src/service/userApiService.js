@@ -8,7 +8,10 @@ const getAllUser = async () => {
     try {
         let users = await db.User.findAll({
             attributes: ["id", "username", "email", "phone"],
-            include: { model: db.Role, attributes: ["id", "name", "url"] },
+            include: {
+                model: db.Group,
+                attributes: ["id", "name", "description"],
+            },
         });
 
         if (users) {
@@ -40,7 +43,10 @@ const getUserWithPagination = async (page, limit) => {
 
         const { count, rows } = await db.User.findAndCountAll({
             attributes: ["id", "username", "email", "phone"],
-            include: { model: db.Role, attributes: ["id", "name", "url"] },
+            include: {
+                model: db.Group,
+                attributes: ["id", "name", "description"],
+            },
             order: [["id", "DESC"]],
             offset: offset,
             limit: limit,
