@@ -34,7 +34,7 @@ app.use(cookieParser());
 //test jwt => done
 
 //init web routes
-initWebRoutes(app);
+// initWebRoutes(app);
 initApiRoutes(app);
 initProductApiRoutes(app);
 initCartApiRoutes(app);
