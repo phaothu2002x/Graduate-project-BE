@@ -105,6 +105,8 @@ const handleLogin = async (rawUserData) => {
             let payload = {
                 email: user.email,
                 username: user.username,
+                avatar: user.avatar,
+                phone: user.phone,
                 groupWithRole,
             };
             let token = createJWT(payload);

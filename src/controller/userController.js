@@ -99,6 +99,8 @@ const getUserAccount = async (req, res) => {
             groupWithRole: req.user.groupWithRole,
             email: req.user.email,
             username: req.user.username,
+            phone: req.user.phone,
+            avatar: req.user.avatar,
         },
     });
 };

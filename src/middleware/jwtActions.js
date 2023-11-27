@@ -85,7 +85,6 @@ const checkUserPermission = (req, res, next) => {
         }
     }
     if (req.user) {
-        let email = req.user.email;
         let role = req.user.groupWithRole.Roles;
         let currentUrl = req.path;
         if (!role || role.length === 0) {
