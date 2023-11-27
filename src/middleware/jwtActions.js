@@ -2,7 +2,11 @@ require("dotenv").config();
 import jwt from "jsonwebtoken";
 
 const nonSecurePaths = ["/logout", "/login", "/register"];
-
+const slugPattern = {
+    paymentMethod: /^\/cart\/payment\/\w+$/,
+    findType: /^\/manage-product\/findType\/\w+$/,
+    findProduct: /^\/manage-products\/findProduct\/\w+$/,
+};
 const createJWT = (payload) => {
     let key = process.env.JWT_SECRET;
     let token = null;
@@ -69,10 +73,17 @@ const checkUserJWT = (req, res, next) => {
 };
 
 const checkUserPermission = (req, res, next) => {
+    // console.log(req.path);
     if (nonSecurePaths.includes(req.path) || req.path === "/account") {
         return next();
     }
-
+    //exclude all slug paths
+    for (const key in slugPattern) {
+        if (slugPattern[key].test(req.path)) {
+            // Exclude this path from JWT authentication
+            return next();
+        }
+    }
     if (req.user) {
         let email = req.user.email;
         let role = req.user.groupWithRole.Roles;

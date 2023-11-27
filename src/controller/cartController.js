@@ -38,25 +38,6 @@ const createFunc = async (req, res) => {
     }
 };
 
-const getPaymentFunc = async (req, res) => {
-    try {
-        let data = await cartService.getPaymentMethod(req.params);
-        // console.log("chec req", req.params); //=> {id: 1}
-        return res.status(200).json({
-            EM: data.EM,
-            EC: data.EC,
-            DT: data.DT,
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({
-            EM: "error from server",
-            EC: "-1",
-            DT: "",
-        });
-    }
-};
-
 const updateFunc = async (req, res) => {
     try {
         // console.log(">>> check body", req.body); //check body { productId: 8, quantity: 20, }
@@ -79,6 +60,25 @@ const deleteFunc = async (req, res) => {
     try {
         // console.log(req.body);
         let data = await cartService.DeleteItemInCart(req.body.id);
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EM: "error from server",
+            EC: "-1",
+            DT: "",
+        });
+    }
+};
+
+const getPaymentFunc = async (req, res) => {
+    try {
+        let data = await cartService.getPaymentMethod(req.params);
+        // console.log("chec req", req.params); //=> {id: 1}
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
