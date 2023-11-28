@@ -3,7 +3,8 @@ import profileService from "../service/profileService";
 
 const readFunc = async (req, res) => {
     try {
-        let data = await cartService.getAllItemInCart();
+        // console.log(req.query);
+        let data = await profileService.getCurrentUser(req.query.user);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

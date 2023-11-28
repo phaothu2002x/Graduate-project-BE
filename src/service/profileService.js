@@ -9,6 +9,26 @@ const findUserInDb = async (userId) => {
     return isUserExist;
 };
 
+const getCurrentUser = async (userId) => {
+    let check = await findUserInDb(userId);
+    if (!check) {
+        return {
+            EM: "Not found user ",
+            EC: 2,
+            DT: "",
+        };
+    }
+    let currentUser = await db.User.findOne({
+        where: { id: userId },
+        attributes: ["username", "avatar", "phone", "email"],
+    });
+    return {
+        EM: "Find User OK!",
+        EC: 0,
+        DT: currentUser,
+    };
+};
+
 const updateUserProfile = async (userData, file) => {
     try {
         const { userId, username, email, phone } = userData;
@@ -55,4 +75,4 @@ const updateUserProfile = async (userData, file) => {
     }
 };
 
-module.exports = { updateUserProfile };
+module.exports = { updateUserProfile, getCurrentUser };
