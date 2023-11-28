@@ -103,6 +103,7 @@ const handleLogin = async (rawUserData) => {
 
             let groupWithRole = await getGroupWithRole(user);
             let payload = {
+                userId: user.id,
                 email: user.email,
                 username: user.username,
                 avatar: user.avatar,
@@ -115,10 +116,13 @@ const handleLogin = async (rawUserData) => {
                     EM: "Ok",
                     EC: 0,
                     DT: {
+                        userId: user.id,
                         access_token: token,
                         groupWithRole,
                         email: user.email,
                         username: user.username,
+                        phone: user.phone,
+                        avatar: user.avatar,
                     },
                 };
             }

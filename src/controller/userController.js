@@ -101,6 +101,7 @@ const getUserAccount = async (req, res) => {
             username: req.user.username,
             phone: req.user.phone,
             avatar: req.user.avatar,
+            userId: req.user.userId,
         },
     });
 };

@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const nonSecurePaths = ["/logout", "/login", "/register"];
 const slugPattern = {
     paymentMethod: /^\/cart\/payment\/\w+$/,
-    findType: /^\/manage-product\/findType\/\w+$/,
+    findType: /^\/manage-products\/findType\/\w+$/,
     findProduct: /^\/manage-products\/findProduct\/\w+$/,
 };
 const createJWT = (payload) => {

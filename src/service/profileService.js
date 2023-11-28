@@ -11,20 +11,22 @@ const findUserInDb = async (userId) => {
 
 const updateUserProfile = async (userData, file) => {
     try {
-        const { username, email, phone } = userData;
-
-        // let check = findUserInDb(itemId);
-        // if (!check) {
-        //     return {
-        //         EM: "Not found Item ",
-        //         EC: 2,
-        //         DT: "",
-        //     };
-        // }
+        const { userId, username, email, phone } = userData;
+        let check = await findUserInDb(userId);
+        if (!check) {
+            if (file) {
+                cloudinary.uploader.destroy(file.filename);
+            }
+            return {
+                EM: "Not found user to update ",
+                EC: 2,
+                DT: "",
+            };
+        }
         if (!file) {
             await db.User.update(
                 { username, email, phone },
-                { where: { id: 1 } }
+                { where: { id: userId } }
             );
             return {
                 EM: "Update User OK!",
@@ -35,7 +37,7 @@ const updateUserProfile = async (userData, file) => {
 
         await db.User.update(
             { username, email, phone, avatar: file.path },
-            { where: { id: 1 } }
+            { where: { id: userId } }
         );
 
         return {
