@@ -3,8 +3,11 @@ import profileService from "../service/profileService";
 
 const readFunc = async (req, res) => {
     try {
-        // console.log(req.query);
-        let data = await profileService.getCurrentUser(req.query.user);
+        // console.log(req.user.userId);
+        let data = await profileService.getCurrentUser(
+            req.user.userId,
+            req.token
+        );
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

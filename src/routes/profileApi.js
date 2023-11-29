@@ -6,7 +6,8 @@ import uploadCloud from "../middleware/uploadFile";
 const router = express.Router();
 const initProfileApiRoutes = (app) => {
     //CRUD cart
-    router.get("/profile/read", profileController.readFunc);
+
+    router.get("/account", profileController.readFunc);
     router.post("/profile/create", profileController.createFunc);
     router.put(
         "/profile/update",

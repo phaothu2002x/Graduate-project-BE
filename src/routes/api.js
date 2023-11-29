@@ -19,7 +19,7 @@ const initApiRoutes = (app) => {
     router.post("/login", apiController.handleLogin);
     router.post("/logout", apiController.handleLogout);
     // CRUD user
-    router.get("/account", userController.getUserAccount);
+    // router.get("/account", userController.getUserAccount);
     router.get("/manage-user/read", userController.readFunc);
     router.post("/manage-user/create", userController.createFunc);
     router.put("/manage-user/update", userController.updateFunc);
