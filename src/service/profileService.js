@@ -80,4 +80,4 @@ const updateUserProfile = async (userData, file) => {
     }
 };
 
-module.exports = { updateUserProfile, getCurrentUser };
+module.exports = { updateUserProfile, getCurrentUser, findUserInDb };

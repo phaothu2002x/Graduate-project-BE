@@ -2,7 +2,8 @@ import cartService from "../service/cartService";
 
 const readFunc = async (req, res) => {
     try {
-        let data = await cartService.getAllItemInCart();
+        // console.log(req.user);
+        let data = await cartService.getAllItemInCart(req.user.userId);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -21,7 +22,8 @@ const readFunc = async (req, res) => {
 const createFunc = async (req, res) => {
     try {
         // console.log("checkres", req.body);
-        let data = await cartService.addToCart(req.body);
+        // console.log("checkres", req.user.userId);
+        let data = await cartService.addToCart(req.body, req.user.userId);
 
         return res.status(200).json({
             EM: data.EM,
@@ -40,8 +42,8 @@ const createFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        // console.log(">>> check body", req.body); //check body { productId: 8, quantity: 20, }
-        let data = await cartService.updateCartList(req.body);
+        // console.log(">>> check body", req.body); //check body { productId: 8, quantity: 20,totalPrice: 2044 }
+        let data = await cartService.updateCartList(req.body, req.user.userId);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -59,7 +61,11 @@ const updateFunc = async (req, res) => {
 const deleteFunc = async (req, res) => {
     try {
         // console.log(req.body);
-        let data = await cartService.DeleteItemInCart(req.body.id);
+        // console.log(req.user.userId);
+        let data = await cartService.DeleteItemInCart(
+            req.body.id,
+            req.user.userId
+        );
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

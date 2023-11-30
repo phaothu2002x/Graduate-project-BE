@@ -1,12 +1,15 @@
 import db from "../models/index";
+import { findUserInDb } from "./profileService";
 const { Op } = require("sequelize");
-const getAllItemInCart = async () => {
+
+const getAllItemInCart = async (userId) => {
     try {
         let cartList = await db.Cart.findAll({
             // include: [{ model: db.Product }],
             attributes: ["ProductId", "quantity", "totalPrice"],
             order: [["ProductId", "ASC"]],
             raw: true,
+            where: { userId: userId },
         });
         // console.log(cartList);
         //extract
@@ -55,12 +58,24 @@ const getAllItemInCart = async () => {
     }
 };
 
-const addToCart = async (data) => {
+const addToCart = async (data, userId) => {
     try {
+        //kiem tra thang user co ton tai ko ? step 1;
+        let check = await findUserInDb(userId);
+        if (!check) {
+            return {
+                EM: "Not found user ",
+                EC: 2,
+                DT: "",
+            };
+        }
+        //step 2: tim tat ca cac san pham cua thang user do
+
         // check product co trong cart chua=> neu co chi add so luong, neu chua thi add sl + product id
         let checkProductExist = await db.Cart.findOne({
-            where: { ProductId: data.productId },
+            where: { ProductId: data.productId, UserId: userId },
         });
+        // console.log(checkProductExist);
 
         if (checkProductExist) {
             await db.Cart.update(
@@ -73,6 +88,7 @@ const addToCart = async (data) => {
                 {
                     where: {
                         ProductId: data.productId,
+                        UserId: userId,
                     },
                 }
             );
@@ -86,6 +102,7 @@ const addToCart = async (data) => {
         // create;
         await db.Cart.create({
             ProductId: data.productId,
+            UserId: userId,
             quantity: data.quantity,
             totalPrice: data.quantity * data.price,
         });
@@ -106,17 +123,17 @@ const addToCart = async (data) => {
     }
 };
 
-const findItemInCart = async (itemId) => {
+const findItemInUserCart = async (itemId, userId) => {
     let itemInCartExist = await db.Cart.findOne({
-        where: { ProductId: itemId },
+        where: { ProductId: itemId, UserId: userId },
     });
     return itemInCartExist;
 };
 
-const updateCartList = async (data) => {
+const updateCartList = async (data, userId) => {
     try {
         const { itemId, quantity, totalPrice } = data;
-        let check = findItemInCart(itemId);
+        let check = findItemInUserCart(itemId, userId);
         if (!check) {
             return {
                 EM: "Not found Item ",
@@ -127,7 +144,7 @@ const updateCartList = async (data) => {
 
         await db.Cart.update(
             { quantity, totalPrice },
-            { where: { ProductId: itemId } }
+            { where: { ProductId: itemId, UserId: userId } }
         );
 
         return {
@@ -144,10 +161,10 @@ const updateCartList = async (data) => {
         };
     }
 };
-const DeleteItemInCart = async (itemId) => {
+const DeleteItemInCart = async (itemId, userId) => {
     try {
         let itemInCart = await db.Cart.findOne({
-            where: { ProductId: itemId },
+            where: { ProductId: itemId, UserId: userId },
         });
         // console.log("check item", itemInCart);
         if (itemInCart) {
