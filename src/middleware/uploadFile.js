@@ -17,6 +17,15 @@ const storage = new CloudinaryStorage({
     },
 });
 
-const uploadCloud = multer({ storage });
+const productStorage = new CloudinaryStorage({
+    cloudinary,
+    allowedFormats: ["jpg", "png"],
+    params: {
+        folder: "productImages",
+    },
+});
 
-module.exports = uploadCloud;
+const uploadCloud = multer({ storage });
+const uploadProductImage = multer({ storage: productStorage });
+
+module.exports = { uploadCloud, uploadProductImage };

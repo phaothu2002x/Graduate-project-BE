@@ -34,8 +34,9 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-        // console.log("check request", req.body);
-        let data = await productService.createProduct(req.body);
+        // console.log("check file", req.files); //ok
+        // console.log("check data", req.body);
+        let data = await productService.createProduct(req.body, req.files);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

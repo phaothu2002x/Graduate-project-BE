@@ -76,10 +76,9 @@ const getProductWithPagination = async (page, limit) => {
     }
 };
 
-const createProduct = async (data) => {
+const createProduct = async (data, imageObj) => {
     try {
         const {
-            thumbnail,
             name,
             description,
             price,
@@ -90,17 +89,21 @@ const createProduct = async (data) => {
             typeSelect,
         } = data;
 
+        const { thumb, galleryList } = imageObj;
+        const galleryUrl = galleryList.map((item) => ({ url: item.path }));
+
         // check product code
         // create
         let product = await db.Product.create({
             name,
-            thumbnail,
+            thumbnail: thumb[0].path,
             description,
             price,
             code,
             BrandId: brandChecked,
             CategoryId: cateChecked,
         });
+        let galleryData = await db.Product_Gallery.bulkCreate(galleryUrl);
         //test
 
         //add association of type,  supplier
@@ -118,6 +121,8 @@ const createProduct = async (data) => {
                 DT: [],
             };
         }
+
+        await product.addProduct_Galleries(galleryData);
         await product.addSupplier(supplier);
         await product.addTypes(type);
         return {

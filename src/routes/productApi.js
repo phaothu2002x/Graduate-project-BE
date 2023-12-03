@@ -1,12 +1,17 @@
 import express from "express";
 import productController from "../controller/productController";
+import { uploadProductImage } from "../middleware/uploadFile";
 
 const router = express.Router();
 const initProductApiRoutes = (app) => {
     //CRUD product
     router.get("/manage-products/read", productController.readFunc);
     router.get("/products/read", productController.readFunc);
-    router.post("/manage-products/create", productController.createFunc);
+    router.post(
+        "/manage-products/create",
+        uploadProductImage.fields([{ name: "thumb" }, { name: "galleryList" }]),
+        productController.createFunc
+    );
     router.put("/manage-products/update", productController.updateFunc);
     router.get("/manage-products/findProduct/:id", productController.findFunc);
     router.delete("/manage-products/delete", productController.deleteFunc);

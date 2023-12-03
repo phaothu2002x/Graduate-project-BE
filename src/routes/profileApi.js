@@ -1,7 +1,7 @@
 import express from "express";
 
 import profileController from "../controller/profileController";
-import uploadCloud from "../middleware/uploadFile";
+import { uploadCloud } from "../middleware/uploadFile";
 
 const router = express.Router();
 const initProfileApiRoutes = (app) => {
