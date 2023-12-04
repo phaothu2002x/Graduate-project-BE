@@ -145,10 +145,21 @@ const findProductById = async (productId) => {
         let product = await db.Product.findOne({
             where: { id: productId },
             include: [
-                { model: db.Supplier },
+                {
+                    model: db.Supplier,
+                    through: {
+                        attributes: [],
+                    },
+                },
                 { model: db.Brand },
                 { model: db.Category },
-                { model: db.Type },
+                {
+                    model: db.Type,
+                    through: {
+                        attributes: [],
+                    },
+                },
+                { model: db.Product_Gallery },
             ],
         });
         if (product) {
@@ -183,8 +194,7 @@ const updateProduct = async (productItem, updateData) => {
                 DT: "",
             };
         }
-        const { typeChecked, categoryChecked } = updateData;
-
+        const { typeChecked, categoryChecked, galleryValue } = updateData;
         await productItem.update({
             name: updateData.name,
             thumbnail: updateData.thumbnail,
@@ -193,6 +203,15 @@ const updateProduct = async (productItem, updateData) => {
             code: updateData.code,
             BrandId: updateData.brandChecked,
             CategoryId: updateData.categoryChecked,
+        });
+        //find product gallery
+        galleryValue.map(async (item) => {
+            await db.Product_Gallery.update(
+                { url: item.url },
+                {
+                    where: { ProductId: productItem.id, id: item.id },
+                }
+            );
         });
         // //update cais association
         productItem.setSuppliers(categoryChecked);

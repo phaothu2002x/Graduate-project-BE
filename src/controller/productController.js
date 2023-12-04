@@ -92,7 +92,7 @@ const findTypeFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        // console.log(">>> check body", req.body); //
+        // console.log(">>> check body", req.body); //ok
         //find productbyid
         let productItem = await productService.findProductById(req.body.id);
         let data = await productService.updateProduct(productItem.DT, req.body);
