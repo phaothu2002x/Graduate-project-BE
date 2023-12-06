@@ -11,6 +11,8 @@ const initOrderApiRoutes = (app) => {
     router.put("/order/update", orderController.updateFunc);
     router.delete("/order/delete", orderController.deleteFunc);
 
+    //user order api
+    router.get("/profile/orders", orderController.getOrderFunc);
     return app.use("/api/", router);
 };
 

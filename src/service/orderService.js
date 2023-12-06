@@ -63,7 +63,7 @@ const createOrder = async (data) => {
     try {
         // console.log("checkdata", data);
         let orderInfo;
-        const { userValue, totalPriceInCart, productList } = data;
+        const { userId, userValue, totalPriceInCart, productList } = data;
         if (data.userValue && data.totalPriceInCart && data.productList) {
             orderInfo = await db.Order_Info.create({
                 name: userValue.name,
@@ -73,6 +73,7 @@ const createOrder = async (data) => {
                 note: userValue.note,
                 amount: totalPriceInCart,
                 status: "Not Paid",
+                UserId: userId,
             });
             //create asociation
             productList.map(async (item) => {
@@ -256,6 +257,37 @@ const findAllSelectList = async () => {
     }
 };
 
+const getOrderById = async (userId) => {
+    try {
+        let data = await db.Order_Info.findAll({
+            where: { UserId: userId },
+            include: [{ model: db.Product }],
+            order: [["id", "DESC"]],
+        });
+
+        if (data) {
+            return {
+                EM: "Get Orders User success",
+                EC: 0,
+                DT: data,
+            };
+        } else {
+            return {
+                EM: "cannot get Orders of undefine user",
+                EC: 1,
+                DT: [],
+            };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
+
 module.exports = {
     getAllOrders,
     getOrderWithPagination,
@@ -264,4 +296,5 @@ module.exports = {
     DeleteOrder,
     findProductInCart,
     findAllSelectList,
+    getOrderById,
 };

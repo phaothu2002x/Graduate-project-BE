@@ -191,6 +191,32 @@ const DeleteItemInCart = async (itemId, userId) => {
     }
 };
 
+const clearCart = async (userId) => {
+    try {
+        if (userId) {
+            await db.Cart.destroy({ where: { UserId: userId } });
+            return {
+                EM: "clear all Item in Cart successfully",
+                EC: 0,
+                DT: [],
+            };
+        } else {
+            return {
+                EM: "clear failed in service",
+                EC: 2,
+                DT: [],
+            };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
+
 const getPaymentMethod = async (data) => {
     try {
         let payment = await db.Payment_Method.findAll({
@@ -226,5 +252,6 @@ module.exports = {
     addToCart,
     updateCartList,
     DeleteItemInCart,
+    clearCart,
     getPaymentMethod,
 };
