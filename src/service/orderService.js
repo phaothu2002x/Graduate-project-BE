@@ -34,6 +34,7 @@ const getOrderWithPagination = async (page, limit) => {
 
         const { count, rows } = await db.Order_Info.findAndCountAll({
             order: [["id", "DESC"]],
+            include: [{ model: db.Product }],
             offset: offset,
             limit: limit,
         });
