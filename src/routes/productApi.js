@@ -21,6 +21,7 @@ const initProductApiRoutes = (app) => {
         productController.findSelectFunc
     );
     router.get("/manage-products/findType/:id", productController.findTypeFunc);
+    router.get("/products/suggestion", productController.findSuggestion);
     return app.use("/api/", router);
 };
 

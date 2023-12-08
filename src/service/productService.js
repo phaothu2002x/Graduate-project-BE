@@ -49,7 +49,23 @@ const getProductWithPagination = async (page, limit) => {
                 "price",
                 "code",
             ],
-
+            include: [
+                {
+                    model: db.Supplier,
+                    through: {
+                        attributes: [],
+                    },
+                },
+                { model: db.Brand },
+                { model: db.Category },
+                {
+                    model: db.Type,
+                    through: {
+                        attributes: [],
+                    },
+                },
+            ],
+            distinct: true,
             order: [["id", "DESC"]],
             offset: offset,
             limit: limit,
@@ -320,6 +336,42 @@ const findTypeThroughCate = async (CategoryId) => {
         };
     }
 };
+const relatedProducts = async (CategoryId) => {
+    try {
+        let data = await db.Product.findAll({
+            where: { CategoryId: CategoryId },
+            attributes: [
+                "id",
+                "thumbnail",
+                "name",
+                "description",
+                "price",
+                "code",
+            ],
+            order: [["id", "ASC"]],
+        });
+        if (data) {
+            return {
+                EM: "find suggestion OK!",
+                EC: 0,
+                DT: data,
+            };
+        } else {
+            return {
+                EM: "not found any suggestion List!",
+                EC: 1,
+                DT: [],
+            };
+        }
+    } catch (error) {
+        console.log(error);
+        return {
+            EM: "something wrong with services",
+            EC: 1,
+            DT: [],
+        };
+    }
+};
 
 module.exports = {
     getAllProduct,
@@ -330,4 +382,5 @@ module.exports = {
     findProductById,
     findAllSelectList,
     findTypeThroughCate,
+    relatedProducts,
 };

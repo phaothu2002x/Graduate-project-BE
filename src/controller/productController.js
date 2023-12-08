@@ -147,6 +147,26 @@ const findSelectFunc = async (req, res) => {
     }
 };
 
+const findSuggestion = async (req, res) => {
+    try {
+        // console.log("check id", req.query);
+        let data = await productService.relatedProducts(req.query.id);
+        // console.log("check find product", data); //=> find thanh cong
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            EM: "error from server",
+            EC: "-1",
+            DT: "",
+        });
+    }
+};
+
 module.exports = {
     readFunc,
     createFunc,
@@ -155,4 +175,5 @@ module.exports = {
     findFunc,
     findSelectFunc,
     findTypeFunc,
+    findSuggestion,
 };
