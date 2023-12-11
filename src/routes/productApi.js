@@ -1,5 +1,6 @@
 import express from "express";
 import productController from "../controller/productController";
+import searchController from "../controller/searchController";
 import { uploadProductImage } from "../middleware/uploadFile";
 
 const router = express.Router();
@@ -20,8 +21,14 @@ const initProductApiRoutes = (app) => {
         "/manage-products/findAllSelection",
         productController.findSelectFunc
     );
+    router.get("/products/findAllSelection", productController.findSelectFunc);
     router.get("/manage-products/findType/:id", productController.findTypeFunc);
     router.get("/products/suggestion", productController.findSuggestion);
+
+    //search part
+    router.get("/products/search", searchController.searchFunc);
+    router.get("/products/filter", searchController.filterFunc);
+
     return app.use("/api/", router);
 };
 
