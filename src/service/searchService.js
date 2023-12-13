@@ -67,8 +67,8 @@ const filterProduct = async (rawData, page, limit) => {
     try {
         // const associations = db.Product.associations;
         // console.log(associations);
-        const { category, brand, supplier } = rawData;
-
+        const { category, brand } = rawData;
+        // console.log(category, brand);
         let offset = (page - 1) * limit;
 
         const { count, rows } = await db.Product.findAndCountAll({
@@ -83,7 +83,6 @@ const filterProduct = async (rawData, page, limit) => {
             where: {
                 "$Category.id$": { [Op.in]: category },
                 "$Brand.id$": { [Op.eq]: brand },
-                "$Suppliers.id$": { [Op.eq]: supplier },
             },
 
             include: [
