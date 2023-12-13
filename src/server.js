@@ -6,6 +6,7 @@ import initProductApiRoutes from "./routes/productApi";
 import initCartApiRoutes from "./routes/cartApi";
 import initOrderApiRoutes from "./routes/orderApi";
 import initProfileApiRoutes from "./routes/profileApi";
+import initCommentApiRoutes from "./routes/commentApi";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import ConfigCors from "./config/cors";
@@ -40,6 +41,7 @@ initProductApiRoutes(app);
 initCartApiRoutes(app);
 initOrderApiRoutes(app);
 initProfileApiRoutes(app);
+initCommentApiRoutes(app);
 
 app.listen(PORT, () => {
     console.log("start server at: ", PORT);
