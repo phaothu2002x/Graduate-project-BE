@@ -15,6 +15,7 @@ const initProductApiRoutes = (app) => {
     );
     router.put("/manage-products/update", productController.updateFunc);
     router.get("/manage-products/findProduct/:id", productController.findFunc);
+    router.get("/product/findProduct/:id", productController.findFunc); //for user
     router.delete("/manage-products/delete", productController.deleteFunc);
 
     router.get(

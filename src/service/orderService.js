@@ -36,6 +36,7 @@ const getOrderWithPagination = async (page, limit) => {
             order: [["id", "DESC"]],
             include: [{ model: db.Product }],
             offset: offset,
+            distinct: true,
             limit: limit,
         });
 

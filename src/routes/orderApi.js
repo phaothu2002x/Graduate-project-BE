@@ -5,14 +5,13 @@ import orderController from "../controller/orderController";
 
 const router = express.Router();
 const initOrderApiRoutes = (app) => {
-    //CRUD cart
-    router.get("/order/read", orderController.readFunc);
-    router.post("/order/create", orderController.createFunc);
-    router.put("/order/update", orderController.updateFunc);
-    router.delete("/order/delete", orderController.deleteFunc);
+    router.get("/order/read", orderController.readFunc); // admin: lay full orders
+    router.post("/order/create", orderController.createFunc); // khi nhan dat hang
+    router.put("/order/update", orderController.updateFunc); //admin
+    router.delete("/order/delete", orderController.deleteFunc); //admin
 
     //user order api
-    router.get("/profile/orders", orderController.getOrderFunc);
+    router.get("/profile/orders", orderController.getOrderFunc); //user
     return app.use("/api/", router);
 };
 

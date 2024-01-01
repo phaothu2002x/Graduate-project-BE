@@ -116,9 +116,9 @@ const createUser = async (data) => {
 };
 const updateUser = async (data) => {
     try {
-        if (!data.roleId) {
+        if (!data.GroupId) {
             return {
-                EM: "Error with empty roleId ",
+                EM: "Error with empty GroupId",
                 EC: 1,
                 DT: "role",
             };
@@ -129,7 +129,7 @@ const updateUser = async (data) => {
         if (user) {
             await user.update({
                 username: data.username,
-                roleId: data.roleId,
+                GroupId: data.GroupId,
             });
             return {
                 EM: "Update OK!",

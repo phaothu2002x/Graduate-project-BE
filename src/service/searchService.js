@@ -31,13 +31,13 @@ const searchProduct = async (rawData, page, limit) => {
             order: [["id", `${order === "1" ? "DESC" : "ASC"}`]],
             distinct: true,
             offset: offset,
-            limit: limit,
+            limit: rows,
         });
 
-        let totalPages = Math.ceil(count / limit);
+        // let totalPages = Math.ceil(count / limit);
         let data = {
             totalRow: count,
-            totalPages: totalPages,
+            totalPages: 1,
             product: rows,
         };
         if (data && data.product.length > 0) {
@@ -67,8 +67,27 @@ const filterProduct = async (rawData, page, limit) => {
     try {
         // const associations = db.Product.associations;
         // console.log(associations);
+
         const { category, brand } = rawData;
         // console.log(category, brand);
+        //check category vs brand
+        let whereClause = {};
+
+        if (category && category.length > 0 && brand !== "0") {
+            whereClause = {
+                "$Category.id$": { [Op.in]: category },
+                "$Brand.id$": { [Op.eq]: brand },
+            };
+        } else if (category && category.length > 0 && brand === "0") {
+            whereClause = { "$Category.id$": { [Op.in]: category } };
+        } else if (brand !== "0" && !category) {
+            whereClause = { "$Brand.id$": { [Op.eq]: brand } };
+        } else if (!category && brand === "0") {
+            whereClause = {};
+        }
+
+        // console.log(whereClause);
+
         let offset = (page - 1) * limit;
 
         const { count, rows } = await db.Product.findAndCountAll({
@@ -80,14 +99,12 @@ const filterProduct = async (rawData, page, limit) => {
                 "price",
                 "code",
             ],
-            where: {
-                "$Category.id$": { [Op.in]: category },
-                "$Brand.id$": { [Op.eq]: brand },
-            },
+            where: whereClause,
 
             include: [
                 { model: db.Brand },
                 { model: db.Category },
+
                 {
                     model: db.Supplier,
                     through: {
@@ -110,10 +127,10 @@ const filterProduct = async (rawData, page, limit) => {
             limit: rows, //fix tam viec click trang refresh
         });
 
-        let totalPages = Math.ceil(count / limit);
+        // let totalPages = Math.ceil(count / limit);
         let data = {
             totalRow: count,
-            totalPages: totalPages,
+            totalPages: 1,
             product: rows,
         };
 

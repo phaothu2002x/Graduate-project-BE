@@ -2,10 +2,20 @@ require("dotenv").config();
 import jwt from "jsonwebtoken";
 
 const nonSecurePaths = ["/logout", "/login", "/register"];
+const productWithSlugPath = /^\/product\/findProduct\/\d+$/;
+const guestPath = [
+    "/products/read",
+    "/products/findAllSelection",
+    "/products/filter",
+    "/comments",
+    "/products/suggestion",
+    "/products/search",
+];
 const slugPattern = {
     paymentMethod: /^\/cart\/payment\/\w+$/,
     findType: /^\/manage-products\/findType\/\w+$/,
     findProduct: /^\/manage-products\/findProduct\/\w+$/,
+    findProductByUser: /^\/product\/findProduct\/\d+$/,
 };
 const createJWT = (payload) => {
     let key = process.env.JWT_SECRET;
@@ -43,7 +53,14 @@ const extractToken = (req) => {
 };
 
 const checkUserJWT = (req, res, next) => {
+    // console.log("check JWT: ", req.path);
     if (nonSecurePaths.includes(req.path)) {
+        return next();
+    }
+    if (guestPath.includes(req.path)) {
+        return next();
+    }
+    if (productWithSlugPath.test(req.path)) {
         return next();
     }
 
@@ -60,14 +77,14 @@ const checkUserJWT = (req, res, next) => {
             return res.status(401).json({
                 EC: -1,
                 DT: "",
-                EM: "not authenticated user",
+                EM: "not authenticated user! Please login...",
             });
         }
     } else {
         return res.status(401).json({
             EC: -1,
             DT: "",
-            EM: "not authenticated user",
+            EM: "not authenticated user! Please login...",
         });
     }
 };
@@ -77,6 +94,10 @@ const checkUserPermission = (req, res, next) => {
     if (nonSecurePaths.includes(req.path) || req.path === "/account") {
         return next();
     }
+
+    if (guestPath.includes(req.path)) {
+        return next();
+    }
     //exclude all slug paths
     for (const key in slugPattern) {
         if (slugPattern[key].test(req.path)) {
@@ -84,6 +105,7 @@ const checkUserPermission = (req, res, next) => {
             return next();
         }
     }
+
     if (req.user) {
         let role = req.user.groupWithRole.Roles;
         let currentUrl = req.path;
