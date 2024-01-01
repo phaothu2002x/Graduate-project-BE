@@ -92,7 +92,7 @@ const getProductWithPagination = async (page, limit) => {
     }
 };
 
-const createProduct = async (data, imageObj) => {
+const createProduct = async (data, imageObj, typeSelect) => {
     try {
         const {
             name,
@@ -102,7 +102,6 @@ const createProduct = async (data, imageObj) => {
             brandChecked,
             cateChecked,
             supChecked,
-            typeSelect,
         } = data;
 
         const { thumb, galleryList } = imageObj;

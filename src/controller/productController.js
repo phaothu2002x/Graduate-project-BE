@@ -36,7 +36,12 @@ const createFunc = async (req, res) => {
     try {
         // console.log("check file", req.files); //ok
         // console.log("check data", req.body);
-        let data = await productService.createProduct(req.body, req.files);
+        // console.log("check data", req.query);
+        let data = await productService.createProduct(
+            req.body,
+            req.files,
+            req.query.typeSelect
+        );
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
